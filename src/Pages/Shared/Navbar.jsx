@@ -38,7 +38,11 @@ const Navbar = () => {
       });
   };
   return (
-    <nav className="sticky top-0 left-0 right-0 z-50 shadow">
+    <nav
+      className={`sticky top-0 left-0 right-0 z-50 shadow ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-black"
+      }`}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Brand Name */}
