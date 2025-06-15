@@ -14,6 +14,8 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+  //   user configuration
+
   const userInfo = {
     theme,
     toggleTheme,
