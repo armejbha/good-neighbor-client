@@ -38,7 +38,7 @@ const Navbar = () => {
       });
   };
   return (
-    <nav>
+    <nav className="sticky top-0 left-0 right-0 z-50 shadow">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center h-16">
           {/* Brand Name */}
