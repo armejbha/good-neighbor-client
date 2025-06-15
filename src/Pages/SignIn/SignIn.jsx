@@ -87,7 +87,7 @@ const SignIn = () => {
         <p className="mt-4 text-center">
           New to this website?{" "}
           <Link to="/register" className="text-primary font-bold">
-            Sign Up
+            Register
           </Link>
         </p>
 
