@@ -40,7 +40,7 @@ const Navbar = () => {
             <NavLink to="/" className={navLinkStyles}>
               Home
             </NavLink>
-            <NavLink to="/about" className={navLinkStyles}>
+            <NavLink to="/allVolunteer" className={navLinkStyles}>
               All Volunteer
             </NavLink>
             <div className="dropdown dropdown-hover">
