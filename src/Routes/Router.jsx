@@ -3,6 +3,8 @@ import RootLayouts from "../Layouts/RootLayouts";
 import Home from "../Pages/Home/Home";
 import AllVolunteerNeed from "../Pages/AllVolunteer/AllVolunteerNeed";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import SignIn from "../Pages/SignIn/SignIn";
+import Register from "../Pages/Register/Register";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +18,14 @@ export const router = createBrowserRouter([
       {
         path: "/allVolunteer",
         Component: AllVolunteerNeed,
+      },
+      {
+        path: "/signIn",
+        Component: SignIn,
+      },
+      {
+        path: "/register",
+        Component: Register,
       },
     ],
   },

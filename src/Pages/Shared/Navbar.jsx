@@ -1,14 +1,17 @@
 import React, { useContext } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { TiThMenu } from "react-icons/ti";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import { Tooltip } from "react-tooltip";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const user = false;
-  const { theme, toggleTheme } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { user, userSignOut, theme, toggleTheme } = useContext(AuthContext);
 
+  console.log(user);
   // desktop navlink styles
   const navLinkStyles = ({ isActive }) =>
     `${
@@ -23,6 +26,17 @@ const Navbar = () => {
     } 
     text-lg font-medium transition hover:text-secondary`;
 
+  // signout
+  const handleLogout = () => {
+    userSignOut()
+      .then(() => {
+        toast.success("Logged out successfully!");
+        navigate("/signIn");
+      })
+      .catch((error) => {
+        toast.error("Logout failed: " + error.message);
+      });
+  };
   return (
     <nav>
       <div className="max-w-7xl mx-auto">
@@ -94,16 +108,16 @@ const Navbar = () => {
                 <div>
                   <img
                     id="user-avatar"
-                    src=""
+                    src={user?.photoURL}
                     alt="User Avatar"
                     className="w-10 h-10 object-cover rounded-full border-2 border-primary cursor-pointer"
                   />
                   <Tooltip anchorSelect="#user-avatar" place="bottom">
-                    {/* {user.displayName} */}
+                    {user.displayName}
                   </Tooltip>
                 </div>
                 <button
-                  // onClick={handleLogout}
+                  onClick={handleLogout}
                   className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-secondary"
                 >
                   Logout
@@ -111,7 +125,7 @@ const Navbar = () => {
               </>
             ) : (
               <Link
-                to="/login"
+                to="/signIn"
                 className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-secondary"
               >
                 Login
@@ -125,12 +139,12 @@ const Navbar = () => {
               <div>
                 <img
                   id="user-avatar"
-                  src=""
+                  src={user?.photoURL}
                   alt="User Avatar"
                   className="w-10 h-10 object-cover rounded-full border-2 border-primary cursor-pointer"
                 />
                 <Tooltip anchorSelect="#user-avatar" place="bottom">
-                  {/* {user.displayName} */}
+                  {user.displayName}
                 </Tooltip>
               </div>
             )}
@@ -205,7 +219,7 @@ const Navbar = () => {
                 {user ? (
                   <li className="mt-4">
                     <button
-                      // onClick={handleLogout}
+                      onClick={handleLogout}
                       className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-secondary"
                     >
                       Logout
@@ -213,7 +227,7 @@ const Navbar = () => {
                   </li>
                 ) : (
                   <Link
-                    to="/login"
+                    to="/signIn"
                     className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-secondary"
                   >
                     Login
