@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import axios from "axios";
 
 const VolunteerPostForm = () => {
   const { user } = useContext(AuthContext);
@@ -34,24 +35,23 @@ const VolunteerPostForm = () => {
       organizerName: user?.displayName,
       organizerEmail: user?.email,
     };
-    console.log(postData);
-    // try {
-    //   const res = await axios.post(
-    //     "https://your-server-url.com/volunteerPosts",
-    //     postData
-    //   );
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/volunteers",
+        postData
+      );
 
-    //   if (res.data.insertedId) {
-    //     toast.success("Volunteer post added!");
-    //     form.reset();
-    //     setDeadline(new Date());
-    //     setCategory("");
-    //     navigate("/all-volunteers");
-    //   }
-    // } catch (err) {
-    //   toast.error("Failed to submit post");
-    //   console.error(err);
-    // }
+      if (res.data.insertedId) {
+        toast.success("Volunteer post added!");
+        form.reset();
+        setDeadline(new Date());
+        setCategory("");
+        navigate("/allVolunteer");
+      }
+    } catch (err) {
+      toast.error("Failed to submit post");
+      console.error(err);
+    }
   };
 
   return (
@@ -191,7 +191,7 @@ const VolunteerPostForm = () => {
           <input
             type="submit"
             value="Add Post"
-            className="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium"
+            className="hover:cursor-pointer bg-primary hover:bg-secondary text-white px-6 py-3 rounded-lg font-medium"
           />
         </div>
       </form>

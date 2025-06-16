@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 const VolunteerCard = ({ post }) => {
   const { thumbnail, postTitle, category, deadline, _id } = post;
+  console.log(_id);
 
   return (
     <motion.div
@@ -30,8 +31,8 @@ const VolunteerCard = ({ post }) => {
             year: "numeric",
           })}
         </p>
-        <Link to={`/volunteer/${_id}`}>
-          <button className="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg">
+        <Link to={`/volunteerDetails/${_id}`}>
+          <button className="hover:cursor-pointer bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg">
             View Details
           </button>
         </Link>

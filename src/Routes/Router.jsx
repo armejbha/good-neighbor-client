@@ -7,6 +7,7 @@ import SignIn from "../Pages/SignIn/SignIn";
 import Register from "../Pages/Register/Register";
 import PrivateRoutes from "./PrivateRoutes";
 import AddVolunteer from "../Pages/AddVolunteer/AddVolunteer";
+import VolunteerDetails from "../Pages/VolunteerDetails.jsx/VolunteerDetails";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,12 @@ export const router = createBrowserRouter([
         path: "/allVolunteer",
         loader: () => fetch("http://localhost:3000/volunteers"),
         Component: AllVolunteerNeed,
+      },
+      {
+        path: "/volunteerDetails/:id",
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/volunteers/${params._id}`),
+        Component: VolunteerDetails,
       },
       {
         path: "/addVolunteer",
