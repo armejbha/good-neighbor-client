@@ -11,6 +11,7 @@ import VolunteerDetails from "../Pages/VolunteerDetails.jsx/VolunteerDetails";
 import ManagePostLayouts from "../Pages/ManagePostLayouts/ManagePostLayouts";
 import MyVolunteerPost from "../Pages/ManagePostLayouts/MyVolunteerPost/MyVolunteerPost";
 import MyRequestPost from "../Pages/ManagePostLayouts/MyRequestPost/MyRequestPost";
+import UpdateVolunteer from "../Pages/ManagePostLayouts/MyVolunteerPost/UpdateVolunteer";
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,16 @@ export const router = createBrowserRouter([
             element: (
               <PrivateRoutes>
                 <MyVolunteerPost></MyVolunteerPost>
+              </PrivateRoutes>
+            ),
+          },
+          {
+            path: "/manageMyPost/updateVolunteer/:id",
+            loader: ({ params }) =>
+              fetch(`http://localhost:3000/volunteersDetails/${params.id}`),
+            element: (
+              <PrivateRoutes>
+                <UpdateVolunteer></UpdateVolunteer>
               </PrivateRoutes>
             ),
           },

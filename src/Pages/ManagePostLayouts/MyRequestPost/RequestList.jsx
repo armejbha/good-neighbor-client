@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { use, useEffect, useState } from "react";
+import { Link } from "react-router";
 import Swal from "sweetalert2";
 
 const RequestList = ({ volunteerRequestByEmail }) => {
@@ -24,7 +25,7 @@ const RequestList = ({ volunteerRequestByEmail }) => {
     if (result.isConfirmed) {
       try {
         const res = await axios.delete(
-          `http://localhost:3000/volunteers/${id}`
+          `http://localhost:3000/volunteersRequests/${id}`
         );
 
         if (res.data.deletedCount > 0) {
@@ -87,10 +88,13 @@ const RequestList = ({ volunteerRequestByEmail }) => {
       ) : (
         <div className="text-center mt-12">
           <p className="text-lg text-gray-500">
-            🚫 You haven’t received any volunteer requests yet.
+            🚫 You didn't any volunteer requests yet.
           </p>
           <p className="text-md text-gray-400 mt-1">
-            Requests from volunteers who want to help you will appear here.
+            You want to join any volunteer programs go the <br />
+            <Link to="/allVolunteer">
+              <span className="text-2xl font-bold">All Volunteers Post</span>
+            </Link>
           </p>
         </div>
       )}

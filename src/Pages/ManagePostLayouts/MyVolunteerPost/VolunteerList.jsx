@@ -1,10 +1,45 @@
-import React, { use } from "react";
+import axios from "axios";
+import React, { use, useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const VolunteerList = ({ volunteerPostByEmail }) => {
-  const volunteers = use(volunteerPostByEmail);
-  
+  const volunteerData = use(volunteerPostByEmail);
+  const [volunteers, setVolunteers] = useState([]);
+
+  useEffect(() => {
+    setVolunteers(volunteerData);
+  }, [volunteerData]);
+
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This post will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axios.delete(
+          `http://localhost:3000/volunteers/${id}`
+        );
+        if (res.data.deletedCount > 0) {
+          Swal.fire("Deleted!", "The post has been removed.", "success");
+          setVolunteers((prev) => prev.filter((post) => post._id !== id));
+        } else {
+          Swal.fire("Error", "Failed to delete the post.", "error");
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "Something went wrong.", "error");
+      }
+    }
+  };
   const hasPosts = Array.isArray(volunteers) && volunteers.length > 0;
 
   return (
@@ -35,15 +70,19 @@ const VolunteerList = ({ volunteerPostByEmail }) => {
                   <td>{volunteer.location}</td>
                   <td className="text-center">
                     <div className="flex items-center justify-center space-x-2">
-                      <button
-                        className="btn btn-sm btn-info text-white px-3 tooltip"
-                        data-tip="Edit"
-                        aria-label="Edit"
+                      <Link
+                        to={`/manageMyPost/updateVolunteer/${volunteer._id}`}
                       >
-                        <FaEdit />
-                      </button>
+                        <button
+                          className="btn btn-sm btn-info text-white px-3 tooltip"
+                          data-tip="Edit"
+                          aria-label="Edit"
+                        >
+                          <FaEdit />
+                        </button>
+                      </Link>
                       <button
-
+                        onClick={() => handleDelete(volunteer._id)}
                         className="btn btn-sm btn-error text-white px-3 tooltip"
                         data-tip="Delete"
                         aria-label="Delete"
