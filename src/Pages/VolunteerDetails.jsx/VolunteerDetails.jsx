@@ -1,128 +1,368 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { IoIosArrowRoundBack } from "react-icons/io";
-import Loading from "../Shared/Loading";
 import { AuthContext } from "../../Context/AuthContext";
+import Modal from "react-modal";
+import { IoMdClose } from "react-icons/io";
+import Loading from "../Shared/Loading";
+import axios from "axios";
+
+Modal.setAppElement("#root");
 
 const VolunteerDetails = () => {
-  const { theme } = useContext(AuthContext);
+  const { theme, user } = useContext(AuthContext);
   const volunteer = useLoaderData();
-  console.log(volunteer);
+  const [neededCount, setNeededCount] = useState(volunteer.volunteersNeeded);
   const navigate = useNavigate();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [suggestion, setSuggestion] = useState("");
+  const [requestSuccess, setRequestSuccess] = useState(false);
 
-  if (!volunteer) return <Loading></Loading>;
+  useEffect(() => {
+    if (requestSuccess) {
+      Swal.fire("Requested!", "Your request has been submitted", "success");
+      setRequestSuccess(false);
+    }
+  }, [requestSuccess]);
+
+  if (!volunteer)
+    return (
+      <div>
+        <Loading></Loading>
+      </div>
+    );
 
   const {
+    _id,
     postTitle,
     category,
     description,
     deadline,
     thumbnail,
     location,
-    volunteersNeeded,
     organizerName,
     organizerEmail,
   } = volunteer;
 
-  const formatDate = (dateStr) => {
-    return new Date(dateStr).toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
+  const formattedDate = new Date(deadline).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 
-  const handleJoin = () => {
-    const deadlineDate = new Date(deadline);
-    deadlineDate.setHours(0, 0, 0, 0);
+  const openModal = () => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (today > deadlineDate) {
-      Swal.fire({
-        icon: "error",
-        title: "Deadline Passed",
-        text: "You can't join, the deadline is over.",
-      });
+    const postDeadline = new Date(deadline);
+    if (today > postDeadline) {
+      Swal.fire("Deadline Passed", "You can't apply anymore", "error");
       return;
     }
-
-  
-    // Add any logic here for joining action (e.g. POST request)
+    setModalIsOpen(true);
   };
 
-  const handleGoBack = () => {
-    navigate(-1);
+  const closeModal = () => setModalIsOpen(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const requestData = {
+      postId: _id,
+      postTitle,
+      description,
+      category,
+      location,
+      deadline,
+      organizerName,
+      organizerEmail,
+      volunteerName: user?.displayName,
+      volunteerEmail: user?.email,
+      suggestion,
+      status: "requested",
+      thumbnail,
+    };
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/volunteerRequests",
+        requestData
+      );
+
+      if (res.data.insertedId) {
+        const res = await axios.patch(
+          `http://localhost:3000/volunteers/${_id}/decrement`
+        );
+        if (res.data) {
+          setNeededCount((prev) => prev - 1);
+          setRequestSuccess(true);
+        }
+
+        closeModal();
+      }
+    } catch (error) {
+      console.error("Request failed:", error);
+      Swal.fire("Error", "Failed to send request", "error");
+    }
   };
 
   return (
     <div className="max-w-5xl mx-auto my-20 px-4">
       <button
-        onClick={handleGoBack}
-        className="flex items-center gap-1 text-xl my-8 text-primary hover:underline"
+        onClick={() => navigate(-1)}
+        className="flex items-center text-xl mb-6 text-primary hover:underline"
       >
-        <IoIosArrowRoundBack size={32} />
-        Go Back
+        <IoIosArrowRoundBack size={30} /> Go Back
       </button>
 
-      <div className="grid md:grid-cols-2 gap-1 shadow-lg rounded-2xl overflow-hidden border border-primary p-2 md:p-6">
-        {/* Thumbnail */}
-        <div className="h-full">
-          <img
-            src={thumbnail}
-            alt={postTitle}
-            className="w-full h-full object-cover rounded-xl"
-          />
-        </div>
+      <div className="grid md:grid-cols-2 gap-6 shadow-lg rounded-xl border border-primary p-4 md:p-8">
+        <img
+          src={thumbnail}
+          alt={postTitle}
+          className="rounded-xl w-full h-full object-cover"
+        />
 
-        {/* Post Info */}
-        <div className="space-y-4 md:p-4">
+        <div className="space-y-2">
           <h1 className="text-4xl font-bold text-primary">{postTitle}</h1>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
+          <p>
             <strong>Category:</strong> {category}
           </p>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
+          <p>
             <strong>Location:</strong> {location}
           </p>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
-            <strong>Deadline:</strong> {formatDate(deadline)}
+          <p>
+            <strong>Deadline:</strong> {formattedDate}
           </p>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
-            <strong>Volunteers Needed:</strong> {volunteersNeeded}
+          <p>
+            <strong>Volunteers Needed:</strong> {neededCount}
           </p>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
+          <p>
             <strong>Description:</strong> {description}
           </p>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
+          <p>
             <strong>Organizer Name:</strong> {organizerName}
           </p>
-          <p
-            className={`${theme === "light" ? "text-gray-700" : "text-white"}`}
-          >
-            <strong>Contact Email:</strong> {organizerEmail}
+          <p>
+            <strong>Organizer Email:</strong> {organizerEmail}
           </p>
 
           <button
-            onClick={handleJoin}
-            className="mt-6 px-6 py-3 bg-primary hover:bg-secondary text-white font-semibold rounded-xl transition duration-300"
+            onClick={openModal}
+            className="mt-4 bg-primary text-white py-2 px-5 rounded-lg hover:bg-secondary transition"
           >
             Be a Volunteer
           </button>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Volunteer Request"
+        className={` max-w-2xl w-full p-6 rounded-xl shadow-2xl mx-auto mt-10 relative overflow-y-auto max-h-[90vh] border ${
+          theme === "dark" ? "bg-gray-900" : "bg-white"
+        } `}
+        overlayClassName="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50"
+      >
+        <button
+          onClick={closeModal}
+          className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+        >
+          <IoMdClose />
+        </button>
+
+        <h2 className="text-2xl font-bold mb-4 text-center text-primary">
+          Volunteer Request
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Thumbnail
+            </label>
+            <input
+              type="text"
+              value={thumbnail}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Post Title
+            </label>
+            <input
+              type="text"
+              value={postTitle}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Description
+            </label>
+            <input
+              type="text"
+              value={description}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Category
+            </label>
+            <input
+              type="text"
+              value={category}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              value={location}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Volunteers Needed
+            </label>
+            <input
+              type="text"
+              value={neededCount}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Deadline
+            </label>
+            <input
+              type="text"
+              value={formattedDate}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Organizer Name
+            </label>
+            <input
+              type="text"
+              value={organizerName}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Organizer Email
+            </label>
+            <input
+              type="email"
+              value={organizerEmail}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Volunteer Name
+            </label>
+            <input
+              type="text"
+              value={user?.displayName}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Volunteer Email
+            </label>
+            <input
+              type="email"
+              value={user?.email}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Suggestion
+            </label>
+            <textarea
+              value={suggestion}
+              onChange={(e) => setSuggestion(e.target.value)}
+              placeholder="Any suggestions?"
+              className="textarea textarea-bordered w-full"
+              rows={3}
+            ></textarea>
+          </div>
+
+          <button type="submit" className="btn btn-primary w-full">
+            Request
+          </button>
+        </form>
+      </Modal>
     </div>
   );
 };
