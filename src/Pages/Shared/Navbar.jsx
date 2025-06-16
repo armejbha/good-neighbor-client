@@ -78,7 +78,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/settings" className={navLinkStyles}>
+                  <NavLink to="/manageMyPost" className={navLinkStyles}>
                     Manage My Posts
                   </NavLink>
                 </li>
@@ -165,7 +165,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/about" className={mobileNavLinkStyles}>
+                  <NavLink to="/allVolunteer" className={mobileNavLinkStyles}>
                     All Volunteer
                   </NavLink>
                 </li>
@@ -187,7 +187,7 @@ const Navbar = () => {
                       </li>
                       <li>
                         <NavLink
-                          to="/settings"
+                          to="/manageMyPost"
                           className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
                         >
                           Manage My Posts

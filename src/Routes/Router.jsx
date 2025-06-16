@@ -8,6 +8,9 @@ import Register from "../Pages/Register/Register";
 import PrivateRoutes from "./PrivateRoutes";
 import AddVolunteer from "../Pages/AddVolunteer/AddVolunteer";
 import VolunteerDetails from "../Pages/VolunteerDetails.jsx/VolunteerDetails";
+import ManagePostLayouts from "../Pages/ManagePostLayouts/ManagePostLayouts";
+import MyVolunteerPost from "../Pages/ManagePostLayouts/MyVolunteerPost/MyVolunteerPost";
+import MyRequestPost from "../Pages/ManagePostLayouts/MyRequestPost/MyRequestPost";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +51,40 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         Component: Register,
+      },
+      {
+        path: "/manageMyPost",
+        element: (
+          <PrivateRoutes>
+            <ManagePostLayouts></ManagePostLayouts>
+          </PrivateRoutes>
+        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <PrivateRoutes>
+                <MyVolunteerPost></MyVolunteerPost>
+              </PrivateRoutes>
+            ),
+          },
+          {
+            path: "myVolunteerPost",
+            element: (
+              <PrivateRoutes>
+                <MyVolunteerPost></MyVolunteerPost>
+              </PrivateRoutes>
+            ),
+          },
+          {
+            path: "myRequestPost",
+            element: (
+              <PrivateRoutes>
+                <MyRequestPost></MyRequestPost>
+              </PrivateRoutes>
+            ),
+          },
+        ],
       },
     ],
   },
