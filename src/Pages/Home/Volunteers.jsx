@@ -4,6 +4,7 @@ import { Link } from "react-router";
 
 const Volunteers = ({ volunteersPromises }) => {
   const volunteers = use(volunteersPromises);
+  console.log(volunteers);
   const sliceVol = volunteers.slice(0, 6);
   return (
     <div className="max-w-7xl mx-auto py-10">

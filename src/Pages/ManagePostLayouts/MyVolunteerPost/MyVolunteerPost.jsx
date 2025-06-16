@@ -6,13 +6,15 @@ import VolunteerList from "./VolunteerLIst";
 
 const MyVolunteerPost = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   return (
     <div>
       <div>
         <Suspense fallback={<Loading></Loading>}>
           <VolunteerList
-            volunteerPostByEmail={volunteerPostByEmail(user?.email)}
+            volunteerPostByEmail={volunteerPostByEmail(
+              user?.email,
+              user?.accessToken
+            )}
           ></VolunteerList>
         </Suspense>
       </div>

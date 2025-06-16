@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 const VolunteerCard = ({ post }) => {
   const { thumbnail, postTitle, category, deadline, _id } = post;
-  console.log(_id);
 
   return (
     <motion.div

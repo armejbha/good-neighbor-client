@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { use, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { IoIosArrowRoundBack } from "react-icons/io";
+import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const RequestList = ({ volunteerRequestByEmail }) => {
   const initialRequests = use(volunteerRequestByEmail);
   const [requests, setRequests] = useState([]);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setRequests(initialRequests);
   }, [initialRequests]);
@@ -47,6 +48,12 @@ const RequestList = ({ volunteerRequestByEmail }) => {
 
   return (
     <div className="md:p-4 max-w-6xl md:ml-17">
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center text-xl mb-6 text-primary hover:underline"
+      >
+        <IoIosArrowRoundBack size={30} /> Go Back
+      </button>
       <h3 className="text-2xl font-semibold mb-4 text-center text-primary">
         My Volunteer Requests Post
       </h3>

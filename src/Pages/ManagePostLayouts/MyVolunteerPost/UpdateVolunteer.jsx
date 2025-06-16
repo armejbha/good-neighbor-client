@@ -5,6 +5,7 @@ import { AuthContext } from "../../../Context/AuthContext";
 import { useLoaderData, useNavigate } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { IoIosArrowRoundBack } from "react-icons/io";
 
 const UpdateVolunteer = () => {
   const volunteer = useLoaderData();
@@ -57,6 +58,12 @@ const UpdateVolunteer = () => {
 
   return (
     <div className="max-w-5xl mx-auto  px-4">
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center text-xl mb-6 text-primary hover:underline"
+      >
+        <IoIosArrowRoundBack size={30} /> Go Back
+      </button>
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-primary">
           Update Volunteer Post
