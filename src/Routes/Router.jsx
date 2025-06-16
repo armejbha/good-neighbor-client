@@ -26,8 +26,12 @@ export const router = createBrowserRouter([
       {
         path: "/volunteerDetails/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/volunteers/${params._id}`),
-        Component: VolunteerDetails,
+          fetch(`http://localhost:3000/volunteersDetails/${params.id}`),
+        element: (
+          <PrivateRoutes>
+            <VolunteerDetails></VolunteerDetails>
+          </PrivateRoutes>
+        ),
       },
       {
         path: "/addVolunteer",
