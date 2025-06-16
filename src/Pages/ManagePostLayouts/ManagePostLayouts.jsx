@@ -1,11 +1,15 @@
 // ManagePostsLayout.jsx
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { NavLink } from "react-router";
 import { Link, Outlet } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 
 const ManagePostsLayout = () => {
   const { theme } = useContext(AuthContext);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const navLinkStyles = ({ isActive }) =>
     `${

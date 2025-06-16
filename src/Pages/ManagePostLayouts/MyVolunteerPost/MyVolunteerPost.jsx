@@ -9,7 +9,6 @@ const MyVolunteerPost = () => {
   console.log(user);
   return (
     <div>
-      <h3></h3>
       <div>
         <Suspense fallback={<Loading></Loading>}>
           <VolunteerList
