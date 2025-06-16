@@ -11,7 +11,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { user, userSignOut, theme, toggleTheme } = useContext(AuthContext);
 
-  console.log(user);
   // desktop navlink styles
   const navLinkStyles = ({ isActive }) =>
     `${
@@ -70,17 +69,17 @@ const Navbar = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-44
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-56
                            "
               >
                 <li>
-                  <NavLink to="/dashboard" className={navLinkStyles}>
-                    Add Volunteer
+                  <NavLink to="/addVolunteer" className={navLinkStyles}>
+                    Add Volunteer Need
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to="/settings" className={navLinkStyles}>
-                    Manage Posts
+                    Manage My Posts
                   </NavLink>
                 </li>
               </ul>
@@ -158,7 +157,7 @@ const Navbar = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="dropdown-content mt-3 z-[1] menu p-2 shadow rounded-box w-44 dark:bg-white text-black "
+                className="dropdown-content mt-3 z-[1] menu p-2 shadow rounded-box w-60 dark:bg-white text-black "
               >
                 <li>
                   <NavLink to="/" className={mobileNavLinkStyles}>
@@ -173,17 +172,17 @@ const Navbar = () => {
                 <li>
                   <details>
                     <summary
-                      className={`${mobileNavLinkStyles} text-lg font-medium px-2 py-1 whitespace-nowrap cursor-pointer`}
+                      className={`${mobileNavLinkStyles} text-lg font-medium px-[13px] py-1 whitespace-nowrap cursor-pointer`}
                     >
                       My Profile
                     </summary>
                     <ul>
                       <li>
                         <NavLink
-                          to="/dashboard"
+                          to="/addVolunteer"
                           className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
                         >
-                          Add Volunteer
+                          Add Volunteer Need
                         </NavLink>
                       </li>
                       <li>
@@ -191,7 +190,7 @@ const Navbar = () => {
                           to="/settings"
                           className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
                         >
-                          Manage Posts
+                          Manage My Posts
                         </NavLink>
                       </li>
                     </ul>

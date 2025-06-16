@@ -1,11 +1,15 @@
 import React from "react";
 import { Link } from "react-router";
-
+import { motion } from "framer-motion";
 const VolunteerCard = ({ post }) => {
   const { thumbnail, postTitle, category, deadline, _id } = post;
 
   return (
-    <div className="rounded-xl shadow-md border bg-white dark:bg-gray-800 overflow-hidden">
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+      className="rounded-xl shadow-md border overflow-hidden bg-white dark:bg-gray-800"
+    >
       <img
         src={thumbnail}
         alt={postTitle}
@@ -15,10 +19,10 @@ const VolunteerCard = ({ post }) => {
         <h2 className="text-xl font-bold mb-2 text-gray-800 dark:text-white">
           {postTitle}
         </h2>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-1">
+        <p className="text-sm mb-1 text-gray-600 dark:text-gray-300">
           Category: {category}
         </p>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">
+        <p className="text-sm mb-3 text-gray-600 dark:text-gray-300">
           Deadline:{" "}
           {new Date(deadline).toLocaleDateString("en-GB", {
             day: "2-digit",
@@ -32,7 +36,7 @@ const VolunteerCard = ({ post }) => {
           </button>
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
