@@ -7,7 +7,7 @@ const Volunteers = ({ volunteersPromises }) => {
   console.log(volunteers);
   const sliceVol = volunteers.slice(0, 6);
   return (
-    <div className="max-w-7xl mx-auto py-10">
+    <div className="max-w-7xl mx-auto py-10 px-2 md:px-0">
       <h1 className="text-3xl font-bold text-center mb-8">
         Volunteer Opportunities
       </h1>
