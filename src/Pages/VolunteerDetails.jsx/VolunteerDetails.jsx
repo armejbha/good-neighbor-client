@@ -183,9 +183,16 @@ const VolunteerDetails = () => {
 
           <button
             onClick={openModal}
-            className="mt-4 bg-primary text-white py-2 px-5 rounded-lg hover:bg-secondary transition"
+            disabled={neededCount === 0}
+            className={`mt-4 py-2 px-5 rounded-lg transition duration-200
+    ${
+      neededCount === 0
+        ? "bg-gray-400 cursor-not-allowed text-white"
+        : "bg-primary text-white hover:bg-secondary"
+    }
+  `}
           >
-            Be a Volunteer
+            {neededCount === 0 ? "Volunteer Limit Reached" : "Be a Volunteer"}
           </button>
         </div>
       </div>

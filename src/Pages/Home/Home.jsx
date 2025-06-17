@@ -3,10 +3,13 @@ import Banner from "./Banner";
 import Volunteers from "./Volunteers";
 import Loading from "../Shared/Loading";
 import { AuthContext } from "../../Context/AuthContext";
+import HowItWorks from "./HowItWorks";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
-  const volunteersPromises = fetch("http://localhost:3000/volunteers").then((res) => res.json());
+  const volunteersPromises = fetch("http://localhost:3000/volunteers").then(
+    (res) => res.json()
+  );
   return (
     <div>
       <div>
@@ -14,6 +17,7 @@ const Home = () => {
         <Suspense fallback={<Loading></Loading>}>
           <Volunteers volunteersPromises={volunteersPromises}></Volunteers>
         </Suspense>
+        <HowItWorks></HowItWorks>
       </div>
     </div>
   );

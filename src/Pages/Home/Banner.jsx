@@ -1,10 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { AuthContext } from "../../Context/AuthContext";
 
 // Slides Data
 const slides = [
@@ -39,106 +40,107 @@ const slides = [
 
 const Banner = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
-  // Refs for arrows
+  const { theme } = useContext(AuthContext);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   return (
-    <div className="h-[80vh] md:h-[92vh] w-full">
-      <Swiper
-        spaceBetween={0}
-        centeredSlides={true}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        pagination={{
-          clickable: true,
-          bulletClass: "swiper-pagination-bullet",
-          bulletActiveClass: "swiper-pagination-bullet-active !bg-primary",
-        }}
-        navigation={{
-          prevEl: prevRef.current,
-          nextEl: nextRef.current,
-        }}
-        onBeforeInit={(swiper) => {
-          swiper.params.navigation.prevEl = prevRef.current;
-          swiper.params.navigation.nextEl = nextRef.current;
-        }}
-        modules={[Autoplay, Pagination, Navigation]}
-        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        className="h-full"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id}>
-            <div
-              className="w-full h-full bg-cover bg-center flex items-center justify-center"
-              style={{ backgroundImage: `url(${slide?.bg})` }}
-            >
-              <div className="bg-black bg-opacity-50 w-full h-full flex items-center justify-center px-6">
-                <div className="text-center text-white max-w-3xl relative">
-                  <motion.h1
+    <div className="py-12 px-4 md:px-6">
+      <div className="max-w-7xl mx-auto relative">
+        <Swiper
+          spaceBetween={30}
+          centeredSlides={true}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          navigation={{
+            prevEl: prevRef.current,
+            nextEl: nextRef.current,
+          }}
+          onBeforeInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+          }}
+          modules={[Autoplay, Pagination, Navigation]}
+          onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        >
+          {slides.map((slide, index) => (
+            <SwiperSlide key={slide.id}>
+              <div
+                className={`rounded-xl overflow-hidden shadow-xl flex flex-col md:flex-row items-center ${
+                  theme === "dark"
+                    ? "bg-white text-black"
+                    : "bg-black text-white"
+                }`}
+              >
+                <div className="md:w-1/2 h-64 md:h-auto">
+                  <img
+                    src={slide.bg}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-6 md:p-10 md:w-1/2 text-center md:text-left">
+                  <motion.h2
                     key={slide.id + "-title"}
-                    initial={{ opacity: 0, y: -30 }}
+                    initial={{ opacity: 0, y: -20 }}
                     animate={{
                       opacity: activeIndex === index ? 1 : 0,
-                      y: activeIndex === index ? 0 : -30,
+                      y: activeIndex === index ? 0 : -20,
                     }}
-                    transition={{ duration: 0.6 }}
-                    className="text-4xl md:text-6xl font-bold mb-6"
+                    transition={{ duration: 0.5 }}
+                    className="text-2xl md:text-4xl font-bold mb-4"
                   >
                     {slide.title}
-                  </motion.h1>
+                  </motion.h2>
 
                   <motion.p
                     key={slide.id + "-desc"}
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{
                       opacity: activeIndex === index ? 1 : 0,
-                      y: activeIndex === index ? 0 : 30,
+                      y: activeIndex === index ? 0 : 20,
                     }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-lg md:text-xl mb-8"
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="text-base md:text-lg mb-6"
                   >
                     {slide.description}
                   </motion.p>
 
                   <motion.div
                     key={slide.id + "-buttons"}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{
-                      opacity: activeIndex === index ? 1 : 0,
-                      scale: activeIndex === index ? 1 : 0.95,
-                    }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: activeIndex === index ? 1 : 0 }}
+                    transition={{ duration: 0.4, delay: 0.4 }}
+                    className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
                   >
-                    <button className="bg-primary text-white px-6 py-3 rounded text-lg hover:bg-white hover:text-primary transition">
+                    <button className="bg-primary text-white px-5 py-2 rounded hover:bg-secondary transition">
                       {slide.btn1}
                     </button>
-                    <button className="bg-white text-primary px-6 py-3 rounded text-lg hover:bg-primary hover:text-white transition">
+                    <button className="border border-primary text-primary px-5 py-2 rounded hover:bg-primary hover:text-white transition">
                       {slide.btn2}
                     </button>
                   </motion.div>
                 </div>
               </div>
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+            </SwiperSlide>
+          ))}
+        </Swiper>
 
-      {/* Swiper Custom Arrows */}
-      <div className="absolute top-1/2 w-full flex justify-between px-6 z-50 transform -translate-y-1/2">
-        <button
-          ref={prevRef}
-          className="text-white bg-primary hover:bg-secondary p-3 rounded-full shadow-md"
-        >
-          ❮
-        </button>
-        <button
-          ref={nextRef}
-          className="text-white bg-primary hover:bg-secondary p-3 rounded-full shadow-md"
-        >
-          ❯
-        </button>
+        {/* Custom Navigation Buttons */}
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-2 md:px-4 z-10">
+          <button
+            ref={prevRef}
+            className="bg-primary text-white p-2 rounded-full shadow hover:bg-secondary"
+          >
+            ❮
+          </button>
+          <button
+            ref={nextRef}
+            className="bg-primary text-white p-2 rounded-full shadow hover:bg-secondary"
+          >
+            ❯
+          </button>
+        </div>
       </div>
     </div>
   );
