@@ -37,7 +37,7 @@ const SignIn = () => {
         toast.error(error.message);
       });
   };
-
+  window.scrollTo({ top: 0, behavior: "smooth" });
   return (
     <div className="card bg-base-100 w-full max-w-sm mx-auto shrink-0 shadow-lg shadow-secondary my-20">
       <h1 className="text-3xl font-bold text-center mt-5">SignIn Form</h1>

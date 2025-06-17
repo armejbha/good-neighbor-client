@@ -157,7 +157,7 @@ const Navbar = () => {
               </label>
               <ul
                 tabIndex={0}
-                className="dropdown-content mt-3 z-[1] menu p-2 shadow rounded-box w-60 dark:bg-white text-black "
+                className="dropdown-content mt-3 z-[1] menu p-2 shadow rounded-box w-60 bg-white text-black "
               >
                 <li>
                   <NavLink to="/" className={mobileNavLinkStyles}>

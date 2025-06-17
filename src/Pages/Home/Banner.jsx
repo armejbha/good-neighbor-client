@@ -34,7 +34,7 @@ const slides = [
       "Support local causes, lead change, and bring hope to those in need.",
     btn1: "Volunteer Now",
     btn2: "Explore Projects",
-    bg: "https://i.postimg.cc/xT6fwjL1/pexels-rdne-6647020.jpg",
+    bg: "https://i.postimg.cc/Vv3Nw9h0/pexels-rdne-6646917.jpg",
   },
 ];
 
@@ -76,7 +76,7 @@ const Banner = () => {
                   <img
                     src={slide.bg}
                     alt={slide.title}
-                    className="w-full md:h-[650px] object-cover"
+                    className="w-full h-[200px] md:h-[650px] object-cover"
                   />
                 </div>
                 <div className="p-6 md:p-10 md:w-1/2 text-center md:text-left">

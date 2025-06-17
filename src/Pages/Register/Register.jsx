@@ -68,9 +68,10 @@ const Register = () => {
         toast.error(error.message);
       });
   };
+  window.scrollTo({ top: 0, behavior: "smooth" });
   return (
     <div className="card bg-base-100 w-full max-w-sm mx-auto shrink-0 shadow-lg shadow-secondary my-40">
-      <h1 className="text-3xl font-bold text-center mt-5">Register</h1>
+      <h1 className="text-3xl font-bold text-center mt-5">Register Form</h1>
       <div className="card-body space-y-4">
         <form onSubmit={handleSignUp} className="space-y-3">
           <div>
