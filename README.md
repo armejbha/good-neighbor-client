@@ -37,6 +37,4 @@ To simplify the process of managing and joining volunteer programs through a use
 - [Server](https://github.com/yourusername/goodneighbor-server)
 
 ---
-
-> 📌 Developed for Assignment-11  
 > 💯 Fully responsive | JWT secured | Deployed on Firebase (Client) & Vercel (Server)
