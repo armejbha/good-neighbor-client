@@ -4,7 +4,7 @@ A full-stack volunteer management platform where users can post and join volunte
 
 ## 🔗 Live Site
 
-[Visit Site](https://your-live-site-url.com)
+[Visit Site](https://goodneighbor-1c1f4.web.app/)
 
 ## 🎯 Purpose
 
@@ -33,8 +33,9 @@ To simplify the process of managing and joining volunteer programs through a use
 
 ## 📁 Repositories
 
-- [Client](https://github.com/yourusername/goodneighbor-client)
-- [Server](https://github.com/yourusername/goodneighbor-server)
+- [Client](https://github.com/Programming-Hero-Web-Course4/b11a11-client-side-armejbha)
+- [Server](https://github.com/Programming-Hero-Web-Course4/b11a11-server-side-armejbha)
 
 ---
+
 > 💯 Fully responsive | JWT secured | Deployed on Firebase (Client) & Vercel (Server)
