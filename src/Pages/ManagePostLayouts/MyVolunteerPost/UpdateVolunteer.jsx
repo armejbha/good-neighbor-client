@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import "react-datepicker/dist/react-datepicker.css";
+import Loading from "../../Shared/Loading";
 
 const UpdateVolunteer = () => {
   const { user } = useContext(AuthContext);
@@ -90,7 +91,12 @@ const UpdateVolunteer = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (loading)
+    return (
+      <div className="text-center py-20">
+        <Loading></Loading>
+      </div>
+    );
   if (!volunteer)
     return (
       <div className="text-center py-20 text-red-500">

@@ -1,12 +1,42 @@
-# React + Vite
+# GoodNeighbor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack volunteer management platform where users can post and join volunteer opportunities.
 
-Currently, two official plugins are available:
+## 🔗 Live Site
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[Visit Site](https://your-live-site-url.com)
 
-## Expanding the ESLint configuration
+## 🎯 Purpose
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To simplify the process of managing and joining volunteer programs through a user-friendly platform.
+
+## ⚙️ Key Features
+
+- 🔐 Email/Password & Google Authentication (Firebase)
+- 📝 Add, Update, Delete Volunteer Posts (CRUD)
+- 📬 “Be a Volunteer” with automatic count update
+- 🔎 Search & layout toggle (card/table)
+- 🌙 Dark/Light Theme Toggle
+- 📦 Responsive Design & Dynamic Route Titles
+- 🎉 SweetAlert2 & React Toastify for alerts
+- 🔄 JWT token verification for private routes
+
+## 🚀 Tech Stack
+
+- **Frontend**: React, TailwindCSS, DaisyUI, React Router, Framer Motion, Lottie, Swiper
+- **Backend**: Express.js, MongoDB, JWT, Firebase Admin
+- **Auth**: Firebase Auth (Email & Google)
+
+## 🧩 NPM Packages
+
+- `react-hook-form`, `react-toastify`, `sweetalert2`, `swiper`, `framer-motion`, `lottie-react`, `react-datepicker`, `jsonwebtoken`, `firebase`, `firebase-admin`, `cors`, `dotenv`, `express`, `axios`
+
+## 📁 Repositories
+
+- [Client](https://github.com/yourusername/goodneighbor-client)
+- [Server](https://github.com/yourusername/goodneighbor-server)
+
+---
+
+> 📌 Developed for Assignment-11  
+> 💯 Fully responsive | JWT secured | Deployed on Firebase (Client) & Vercel (Server)

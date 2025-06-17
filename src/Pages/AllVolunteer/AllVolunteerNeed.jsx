@@ -4,13 +4,14 @@ import { FaThLarge, FaTable } from "react-icons/fa";
 import VolunteerCard from "../Shared/VolunteerCard";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router";
+import Loading from "../Shared/Loading";
 
 const AllVolunteerNeed = () => {
   const [volunteers, setVolunteers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewType, setViewType] = useState("grid");
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   // Load saved view type and fetch volunteers
   useEffect(() => {
     const savedView = localStorage.getItem("viewType") || "grid";
@@ -21,6 +22,7 @@ const AllVolunteerNeed = () => {
 
   // Fetch volunteers from backend
   const fetchVolunteers = async (query = "") => {
+    setLoading(true);
     try {
       const res = await axios.get(
         `https://good-neighbor-server.vercel.app/volunteers${
@@ -30,6 +32,8 @@ const AllVolunteerNeed = () => {
       setVolunteers(res.data);
     } catch (error) {
       console.error("Failed to fetch volunteers", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -43,7 +47,9 @@ const AllVolunteerNeed = () => {
     setViewType(type);
     localStorage.setItem("viewType", type);
   };
-
+  if (loading) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="max-w-7xl mx-auto my-20 px-4">
       <button
