@@ -119,9 +119,7 @@ const AllVolunteerNeed = () => {
                   <td>
                     <button
                       className="btn btn-sm btn-outline btn-primary"
-                      onClick={() =>
-                        (window.location.href = `/volunteerDetails/${post._id}`)
-                      }
+                      onClick={() => navigate(`/volunteerDetails/${post._id}`)}
                     >
                       View Details
                     </button>

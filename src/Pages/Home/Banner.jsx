@@ -45,7 +45,7 @@ const Banner = () => {
   const nextRef = useRef(null);
 
   return (
-    <div className="py-12 px-4 md:px-6">
+    <div className={`py-12 px-4 md:px-6 ${theme === "light" && "bg-gray-50"}`}>
       <div className="max-w-7xl mx-auto relative">
         <Swiper
           spaceBetween={30}

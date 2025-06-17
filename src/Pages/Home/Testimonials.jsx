@@ -80,7 +80,9 @@ const Testimonials = () => {
     <section className={`py-16 ${theme === "light" && "bg-gray-50"}`}>
       <div className="max-w-7xl mx-auto px-6">
         <motion.h2
-          className="text-3xl font-extrabold text-gray-900 text-center mb-12"
+          className={`text-3xl font-extrabold ${
+            theme === "dark" && "text-white"
+          } text-center mb-12`}
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
