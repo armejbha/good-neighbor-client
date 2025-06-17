@@ -1,3 +1,417 @@
+// import React, { useContext, useEffect, useState } from "react";
+// import { useNavigate, useParams } from "react-router";
+// import Swal from "sweetalert2";
+// import { IoIosArrowRoundBack } from "react-icons/io";
+// import { AuthContext } from "../../Context/AuthContext";
+// import Modal from "react-modal";
+// import { IoMdClose } from "react-icons/io";
+// import Loading from "../Shared/Loading";
+// import axios from "axios";
+
+// Modal.setAppElement("#root");
+
+// const VolunteerDetails = () => {
+//   const { theme, user } = useContext(AuthContext);
+//   const { id } = useParams();
+//   const [volunteer, setVolunteer] = useState(null);
+//   const [neededCount, setNeededCount] = useState(0);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const navigate = useNavigate();
+//   const [modalIsOpen, setModalIsOpen] = useState(false);
+//   const [suggestion, setSuggestion] = useState("");
+//   const [requestSuccess, setRequestSuccess] = useState(false);
+
+//   useEffect(() => {
+//     if (!id) return;
+
+//     setLoading(true);
+//     setError(null);
+
+//     axios
+//       .get(`https://good-neighbor-server.vercel.app/volunteersDetails/${id}`, {
+//         headers: {
+//           authorization: `Bearer ${user?.accessToken}`,
+//         },
+//       })
+//       .then((response) => {
+//         setVolunteer(response.data);
+//         setNeededCount(response.data.volunteersNeeded);
+//       })
+//       .catch((err) => {
+//         setError("Failed to fetch volunteer details");
+//         console.error(err);
+//       })
+//       .finally(() => setLoading(false));
+//   }, [id]);
+
+//   useEffect(() => {
+//     if (requestSuccess) {
+//       Swal.fire("Requested!", "Your request has been submitted", "success");
+//       setRequestSuccess(false);
+//     }
+//   }, [requestSuccess]);
+
+//   if (loading) return <Loading />;
+//   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
+//   if (!volunteer)
+//     return <p className="text-center mt-10">No volunteer found</p>;
+
+//   const {
+//     _id,
+//     postTitle,
+//     category,
+//     description,
+//     deadline,
+//     thumbnail,
+//     location,
+//     organizerName,
+//     organizerEmail,
+//   } = volunteer;
+
+//   const formattedDate = new Date(deadline).toLocaleDateString("en-GB", {
+//     day: "2-digit",
+//     month: "short",
+//     year: "numeric",
+//   });
+
+//   const openModal = () => {
+//     const today = new Date();
+//     const postDeadline = new Date(deadline);
+//     if (today > postDeadline) {
+//       Swal.fire("Deadline Passed", "You can't apply anymore", "error");
+//       return;
+//     }
+//     setModalIsOpen(true);
+//   };
+
+//   const closeModal = () => setModalIsOpen(false);
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     const requestData = {
+//       postId: _id,
+//       postTitle,
+//       description,
+//       category,
+//       location,
+//       deadline,
+//       organizerName,
+//       organizerEmail,
+//       volunteerName: user?.displayName,
+//       volunteerEmail: user?.email,
+//       suggestion,
+//       status: "requested",
+//       thumbnail,
+//     };
+
+//     try {
+//       const res = await axios.post(
+//         "https://good-neighbor-server.vercel.app/volunteerRequests",
+//         requestData,
+//         {
+//           headers: {
+//             authorization: `Bearer ${user?.accessToken}`,
+//           },
+//         }
+//       );
+
+//       if (res.data.insertedId) {
+//         const patchRes = await axios.patch(
+//           `https://good-neighbor-server.vercel.app/volunteers/${_id}/decrement`,
+//           {},
+//           {
+//             headers: {
+//               authorization: `Bearer ${user?.accessToken}`,
+//             },
+//           }
+//         );
+//         console.log(patchRes);
+//         if (patchRes.data) {
+//           setNeededCount((prev) => prev - 1);
+//           setRequestSuccess(true);
+//         }
+
+//         closeModal();
+//       }
+//     } catch (error) {
+//       console.error("Request failed:", error);
+//       Swal.fire("Error", "Failed to send request", "error");
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-5xl mx-auto my-20 px-4">
+//       <button
+//         onClick={() => navigate(-1)}
+//         className="flex items-center text-xl mb-6 text-primary hover:underline"
+//       >
+//         <IoIosArrowRoundBack size={30} /> Go Back
+//       </button>
+
+//       <div className="grid md:grid-cols-2 gap-6 shadow-lg rounded-xl border border-primary p-4 md:p-8">
+//         <img
+//           src={thumbnail}
+//           alt={postTitle}
+//           className="rounded-xl w-full h-full object-cover"
+//         />
+
+//         <div className="space-y-2">
+//           <h1 className="text-4xl font-bold text-primary">{postTitle}</h1>
+//           <p>
+//             <strong>Category:</strong> {category}
+//           </p>
+//           <p>
+//             <strong>Location:</strong> {location}
+//           </p>
+//           <p>
+//             <strong>Deadline:</strong> {formattedDate}
+//           </p>
+//           <p>
+//             <strong>Volunteers Needed:</strong> {neededCount}
+//           </p>
+//           <p>
+//             <strong>Description:</strong> {description}
+//           </p>
+//           <p>
+//             <strong>Organizer Name:</strong> {organizerName}
+//           </p>
+//           <p>
+//             <strong>Organizer Email:</strong> {organizerEmail}
+//           </p>
+
+//           <button
+//             onClick={openModal}
+//             disabled={neededCount === 0}
+//             className={`mt-4 py-2 px-5 rounded-lg transition duration-200
+//     ${
+//       neededCount === 0
+//         ? "bg-gray-400 cursor-not-allowed text-white"
+//         : "bg-primary text-white hover:bg-secondary"
+//     }
+//   `}
+//           >
+//             {neededCount === 0 ? "Volunteer Limit Reached" : "Be a Volunteer"}
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Modal */}
+//       <Modal
+//         isOpen={modalIsOpen}
+//         onRequestClose={closeModal}
+//         contentLabel="Volunteer Request"
+//         className={` max-w-2xl w-full p-6 rounded-xl shadow-2xl mx-auto mt-10 relative overflow-y-auto max-h-[90vh] border ${
+//           theme === "dark" ? "bg-gray-900" : "bg-white"
+//         } `}
+//         overlayClassName="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50"
+//       >
+//         <button
+//           onClick={closeModal}
+//           className="absolute top-3 right-3 text-gray-500 hover:text-red-500 text-xl"
+//         >
+//           <IoMdClose />
+//         </button>
+
+//         <h2 className="text-2xl font-bold mb-4 text-center text-primary">
+//           Volunteer Request
+//         </h2>
+
+//         <form onSubmit={handleSubmit} className="space-y-4">
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Thumbnail
+//             </label>
+//             <input
+//               type="text"
+//               value={thumbnail}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Post Title
+//             </label>
+//             <input
+//               type="text"
+//               value={postTitle}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Description
+//             </label>
+//             <input
+//               type="text"
+//               value={description}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Category
+//             </label>
+//             <input
+//               type="text"
+//               value={category}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Location
+//             </label>
+//             <input
+//               type="text"
+//               value={location}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Volunteers Needed
+//             </label>
+//             <input
+//               type="text"
+//               value={neededCount}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Deadline
+//             </label>
+//             <input
+//               type="text"
+//               value={formattedDate}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Organizer Name
+//             </label>
+//             <input
+//               type="text"
+//               value={organizerName}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Organizer Email
+//             </label>
+//             <input
+//               type="email"
+//               value={organizerEmail}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Volunteer Name
+//             </label>
+//             <input
+//               type="text"
+//               value={user?.displayName}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Volunteer Email
+//             </label>
+//             <input
+//               type="email"
+//               value={user?.email}
+//               readOnly
+//               className="input input-bordered w-full"
+//             />
+//           </div>
+//           <div>
+//             <label
+//               className={`label ${
+//                 theme === "dark" ? "text-white" : "text-black"
+//               }`}
+//             >
+//               Suggestion
+//             </label>
+//             <textarea
+//               value={suggestion}
+//               onChange={(e) => setSuggestion(e.target.value)}
+//               placeholder="Any suggestions?"
+//               className="textarea textarea-bordered w-full"
+//               rows={3}
+//             ></textarea>
+//           </div>
+
+//           <button type="submit" className="btn btn-primary w-full">
+//             Request
+//           </button>
+//         </form>
+//       </Modal>
+//     </div>
+//   );
+// };
+
+// export default VolunteerDetails;
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
@@ -17,10 +431,11 @@ const VolunteerDetails = () => {
   const [neededCount, setNeededCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [isDeadlineOver, setIsDeadlineOver] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [suggestion, setSuggestion] = useState("");
   const [requestSuccess, setRequestSuccess] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -37,6 +452,10 @@ const VolunteerDetails = () => {
       .then((response) => {
         setVolunteer(response.data);
         setNeededCount(response.data.volunteersNeeded);
+
+        const deadlineDate = new Date(response.data.deadline);
+        const today = new Date();
+        setIsDeadlineOver(today > deadlineDate);
       })
       .catch((err) => {
         setError("Failed to fetch volunteer details");
@@ -76,9 +495,7 @@ const VolunteerDetails = () => {
   });
 
   const openModal = () => {
-    const today = new Date();
-    const postDeadline = new Date(deadline);
-    if (today > postDeadline) {
+    if (isDeadlineOver) {
       Swal.fire("Deadline Passed", "You can't apply anymore", "error");
       return;
     }
@@ -127,7 +544,7 @@ const VolunteerDetails = () => {
             },
           }
         );
-        console.log(patchRes);
+
         if (patchRes.data) {
           setNeededCount((prev) => prev - 1);
           setRequestSuccess(true);
@@ -183,16 +600,18 @@ const VolunteerDetails = () => {
 
           <button
             onClick={openModal}
-            disabled={neededCount === 0}
-            className={`mt-4 py-2 px-5 rounded-lg transition duration-200
-    ${
-      neededCount === 0
-        ? "bg-gray-400 cursor-not-allowed text-white"
-        : "bg-primary text-white hover:bg-secondary"
-    }
-  `}
+            disabled={neededCount === 0 || isDeadlineOver}
+            className={`mt-4 py-2 px-5 rounded-lg transition duration-200 ${
+              neededCount === 0 || isDeadlineOver
+                ? "bg-gray-400 cursor-not-allowed text-white"
+                : "bg-primary text-white hover:bg-secondary"
+            }`}
           >
-            {neededCount === 0 ? "Volunteer Limit Reached" : "Be a Volunteer"}
+            {isDeadlineOver
+              ? "Event is Over"
+              : neededCount === 0
+              ? "Volunteer Limit Reached"
+              : "Be a Volunteer"}
           </button>
         </div>
       </div>
@@ -205,7 +624,7 @@ const VolunteerDetails = () => {
         className={` max-w-2xl w-full p-6 rounded-xl shadow-2xl mx-auto mt-10 relative overflow-y-auto max-h-[90vh] border ${
           theme === "dark" ? "bg-gray-900" : "bg-white"
         } `}
-        overlayClassName="fixed inset-0  bg-opacity-50 flex items-center justify-center z-50"
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       >
         <button
           onClick={closeModal}
@@ -219,171 +638,36 @@ const VolunteerDetails = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Thumbnail
-            </label>
-            <input
-              type="text"
-              value={thumbnail}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Post Title
-            </label>
-            <input
-              type="text"
-              value={postTitle}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Description
-            </label>
-            <input
-              type="text"
-              value={description}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Category
-            </label>
-            <input
-              type="text"
-              value={category}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Location
-            </label>
-            <input
-              type="text"
-              value={location}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Volunteers Needed
-            </label>
-            <input
-              type="text"
-              value={neededCount}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Deadline
-            </label>
-            <input
-              type="text"
-              value={formattedDate}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Organizer Name
-            </label>
-            <input
-              type="text"
-              value={organizerName}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Organizer Email
-            </label>
-            <input
-              type="email"
-              value={organizerEmail}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Volunteer Name
-            </label>
-            <input
-              type="text"
-              value={user?.displayName}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
-          <div>
-            <label
-              className={`label ${
-                theme === "dark" ? "text-white" : "text-black"
-              }`}
-            >
-              Volunteer Email
-            </label>
-            <input
-              type="email"
-              value={user?.email}
-              readOnly
-              className="input input-bordered w-full"
-            />
-          </div>
+          {[
+            ["Thumbnail", thumbnail],
+            ["Post Title", postTitle],
+            ["Description", description],
+            ["Category", category],
+            ["Location", location],
+            ["Volunteers Needed", neededCount],
+            ["Deadline", formattedDate],
+            ["Organizer Name", organizerName],
+            ["Organizer Email", organizerEmail],
+            ["Volunteer Name", user?.displayName],
+            ["Volunteer Email", user?.email],
+          ].map(([label, value]) => (
+            <div key={label}>
+              <label
+                className={`label ${
+                  theme === "dark" ? "text-white" : "text-black"
+                }`}
+              >
+                {label}
+              </label>
+              <input
+                type="text"
+                value={value}
+                readOnly
+                className="input input-bordered w-full"
+              />
+            </div>
+          ))}
+
           <div>
             <label
               className={`label ${
