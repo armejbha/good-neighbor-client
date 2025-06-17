@@ -72,7 +72,7 @@ const Banner = () => {
                     : "bg-black text-white"
                 }`}
               >
-                <div className="md:w-1/2 h-64 md:h-auto">
+                <div className="md:w-1/2 md:h-auto">
                   <img
                     src={slide.bg}
                     alt={slide.title}

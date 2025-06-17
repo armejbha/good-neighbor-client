@@ -4,6 +4,7 @@ import Volunteers from "./Volunteers";
 import Loading from "../Shared/Loading";
 import { AuthContext } from "../../Context/AuthContext";
 import HowItWorks from "./HowItWorks";
+import Testimonials from "./Testimonials";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -17,6 +18,7 @@ const Home = () => {
         <Suspense fallback={<Loading></Loading>}>
           <Volunteers volunteersPromises={volunteersPromises}></Volunteers>
         </Suspense>
+        <Testimonials></Testimonials>
         <HowItWorks></HowItWorks>
       </div>
     </div>
