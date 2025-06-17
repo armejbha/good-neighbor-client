@@ -1,7 +1,7 @@
 
 
 export const volunteerRequestByEmail=(email,accessToken)=>{
-    return fetch(`http://localhost:3000/volunteerRequests?email=${email}`,
+    return fetch(`https://good-neighbor-server.vercel.app/volunteerRequests?email=${email}`,
         {
             headers: {
               authorization: `Bearer ${accessToken}`,

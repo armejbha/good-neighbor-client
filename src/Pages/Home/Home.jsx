@@ -8,9 +8,9 @@ import Testimonials from "./Testimonials";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
-  const volunteersPromises = fetch("http://localhost:3000/volunteers").then(
-    (res) => res.json()
-  );
+  const volunteersPromises = fetch(
+    "https://good-neighbor-server.vercel.app/volunteers"
+  ).then((res) => res.json());
   window.scrollTo({ top: 0, behavior: "smooth" });
   return (
     <div>

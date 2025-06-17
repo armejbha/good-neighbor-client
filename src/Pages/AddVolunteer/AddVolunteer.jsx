@@ -37,7 +37,7 @@ const VolunteerPostForm = () => {
     };
     try {
       const res = await axios.post(
-        "http://localhost:3000/volunteers",
+        "https://good-neighbor-server.vercel.app/volunteers",
         postData,
         {
           headers: {

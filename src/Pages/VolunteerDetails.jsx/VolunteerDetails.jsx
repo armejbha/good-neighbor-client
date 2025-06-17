@@ -29,7 +29,7 @@ const VolunteerDetails = () => {
     setError(null);
 
     axios
-      .get(`http://localhost:3000/volunteersDetails/${id}`, {
+      .get(`https://good-neighbor-server.vercel.app/volunteersDetails/${id}`, {
         headers: {
           authorization: `Bearer ${user?.accessToken}`,
         },
@@ -108,7 +108,7 @@ const VolunteerDetails = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/volunteerRequests",
+        "https://good-neighbor-server.vercel.app/volunteerRequests",
         requestData,
         {
           headers: {
@@ -119,7 +119,7 @@ const VolunteerDetails = () => {
 
       if (res.data.insertedId) {
         const patchRes = await axios.patch(
-          `http://localhost:3000/volunteers/${_id}/decrement`,
+          `https://good-neighbor-server.vercel.app/volunteers/${_id}/decrement`,
           {},
           {
             headers: {

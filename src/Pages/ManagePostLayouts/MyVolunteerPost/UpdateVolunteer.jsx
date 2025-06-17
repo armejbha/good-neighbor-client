@@ -23,7 +23,7 @@ const UpdateVolunteer = () => {
     const fetchVolunteer = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/volunteersDetails/${id}`,
+          `https://good-neighbor-server.vercel.app/volunteersDetails/${id}`,
           {
             headers: {
               authorization: `Bearer ${user?.accessToken}`,
@@ -70,7 +70,7 @@ const UpdateVolunteer = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:3000/volunteers/${id}`,
+        `https://good-neighbor-server.vercel.app/volunteers/${id}`,
         updatedPost,
         {
           headers: {

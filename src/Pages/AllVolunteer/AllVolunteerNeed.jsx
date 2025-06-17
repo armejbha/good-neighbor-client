@@ -23,7 +23,9 @@ const AllVolunteerNeed = () => {
   const fetchVolunteers = async (query = "") => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/volunteers${query ? `?search=${query}` : ""}`
+        `https://good-neighbor-server.vercel.app/volunteers${
+          query ? `?search=${query}` : ""
+        }`
       );
       setVolunteers(res.data);
     } catch (error) {

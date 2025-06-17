@@ -29,7 +29,7 @@ const VolunteerList = ({ volunteerPostByEmail }) => {
     if (result.isConfirmed) {
       try {
         const res = await axios.delete(
-          `http://localhost:3000/volunteers/${id}`,
+          `https://good-neighbor-server.vercel.app/volunteers/${id}`,
           {
             headers: {
               authorization: `Bearer ${user?.accessToken}`,
