@@ -1,10 +1,12 @@
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const RequestList = ({ volunteerRequestByEmail }) => {
+  const { user } = useContext(AuthContext);
   const initialRequests = use(volunteerRequestByEmail);
   const [requests, setRequests] = useState([]);
   const navigate = useNavigate();
@@ -26,7 +28,12 @@ const RequestList = ({ volunteerRequestByEmail }) => {
     if (result.isConfirmed) {
       try {
         const res = await axios.delete(
-          `http://localhost:3000/volunteersRequests/${id}`
+          `http://localhost:3000/volunteersRequests/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${user?.accessToken}`,
+            },
+          }
         );
 
         if (res.data.deletedCount > 0) {

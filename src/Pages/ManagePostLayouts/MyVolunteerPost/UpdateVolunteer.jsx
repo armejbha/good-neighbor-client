@@ -1,30 +1,59 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { AuthContext } from "../../../Context/AuthContext";
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import "react-datepicker/dist/react-datepicker.css";
 
 const UpdateVolunteer = () => {
-  const volunteer = useLoaderData();
-  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { id } = useParams();
   const datepickerRef = useRef(null);
 
-  const [deadline, setDeadline] = useState(new Date(volunteer?.deadline));
-  const [category, setCategory] = useState(volunteer?.category || "");
+  const [volunteer, setVolunteer] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [deadline, setDeadline] = useState(new Date());
+  const [category, setCategory] = useState("");
+
+  useEffect(() => {
+    const fetchVolunteer = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/volunteersDetails/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${user?.accessToken}`,
+            },
+          }
+        );
+        const data = res.data;
+        setVolunteer(data);
+        setDeadline(data.deadline ? new Date(data.deadline) : new Date());
+        setCategory(data.category || "");
+        setLoading(false);
+      } catch (err) {
+        toast.error("Failed to load volunteer data.");
+        console.error(err);
+        setLoading(false);
+      }
+    };
+    fetchVolunteer();
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
+
     const formatDate = (date) => {
       const d = new Date(date);
-      const dd = String(d.getDate()).padStart(2, "0");
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const yyyy = d.getFullYear();
-      return `${yyyy}-${mm}-${dd}`;
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}-${String(d.getDate()).padStart(2, "0")}`;
     };
 
     const updatedPost = {
@@ -41,8 +70,13 @@ const UpdateVolunteer = () => {
 
     try {
       const res = await axios.put(
-        `http://localhost:3000/volunteers/${volunteer._id}`,
-        updatedPost
+        `http://localhost:3000/volunteers/${id}`,
+        updatedPost,
+        {
+          headers: {
+            authorization: `Bearer ${user?.accessToken}`,
+          },
+        }
       );
       if (res.data.modifiedCount > 0) {
         toast.success("Volunteer post updated successfully!");
@@ -51,19 +85,28 @@ const UpdateVolunteer = () => {
         toast.info("No changes were made.");
       }
     } catch (err) {
-      toast.error("Failed to update post");
+      toast.error("Failed to update post.");
       console.error(err);
     }
   };
 
+  if (loading) return <div className="text-center py-20">Loading...</div>;
+  if (!volunteer)
+    return (
+      <div className="text-center py-20 text-red-500">
+        Volunteer post not found.
+      </div>
+    );
+
   return (
-    <div className="max-w-5xl mx-auto  px-4">
+    <div className="max-w-5xl mx-auto px-4">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center text-xl mb-6 text-primary hover:underline"
       >
         <IoIosArrowRoundBack size={30} /> Go Back
       </button>
+
       <div className="text-center mb-10">
         <h1 className="text-3xl md:text-4xl font-bold text-primary">
           Update Volunteer Post
@@ -84,7 +127,7 @@ const UpdateVolunteer = () => {
               type="url"
               name="thumbnail"
               required
-              defaultValue={volunteer.thumbnail}
+              defaultValue={volunteer.thumbnail || ""}
               className="input input-bordered w-full"
             />
           </div>
@@ -95,7 +138,7 @@ const UpdateVolunteer = () => {
               type="text"
               name="postTitle"
               required
-              defaultValue={volunteer.postTitle}
+              defaultValue={volunteer.postTitle || ""}
               className="input input-bordered w-full"
             />
           </div>
@@ -129,6 +172,7 @@ const UpdateVolunteer = () => {
                 onChange={(date) => setDeadline(date)}
                 minDate={new Date()}
                 dateFormat="dd MMM yyyy"
+                className="w-full bg-transparent focus:outline-none"
               />
               <FaRegCalendarAlt className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
             </div>
@@ -140,7 +184,7 @@ const UpdateVolunteer = () => {
               type="text"
               name="location"
               required
-              defaultValue={volunteer.location}
+              defaultValue={volunteer.location || ""}
               className="input input-bordered w-full"
             />
           </div>
@@ -152,7 +196,7 @@ const UpdateVolunteer = () => {
               name="volunteersNeeded"
               required
               min={1}
-              defaultValue={volunteer.volunteersNeeded}
+              defaultValue={volunteer.volunteersNeeded || 1}
               className="input input-bordered w-full"
             />
           </div>
@@ -164,7 +208,7 @@ const UpdateVolunteer = () => {
             name="description"
             required
             rows="4"
-            defaultValue={volunteer.description}
+            defaultValue={volunteer.description || ""}
             className="textarea textarea-bordered w-full"
           ></textarea>
         </div>
@@ -175,7 +219,7 @@ const UpdateVolunteer = () => {
             <input
               type="text"
               name="organizerName"
-              defaultValue={volunteer.organizerName}
+              defaultValue={volunteer.organizerName || ""}
               className="input input-bordered w-full"
             />
           </div>
@@ -184,7 +228,7 @@ const UpdateVolunteer = () => {
             <input
               type="email"
               name="organizerEmail"
-              defaultValue={volunteer.organizerEmail}
+              defaultValue={volunteer.organizerEmail || ""}
               className="input input-bordered w-full"
             />
           </div>

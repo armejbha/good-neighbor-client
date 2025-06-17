@@ -1,11 +1,13 @@
 import axios from "axios";
-import React, { use, useEffect, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../../Context/AuthContext";
 
 const VolunteerList = ({ volunteerPostByEmail }) => {
+  const { user } = useContext(AuthContext);
   const volunteerData = use(volunteerPostByEmail);
   const [volunteers, setVolunteers] = useState([]);
   const navigate = useNavigate();
@@ -27,7 +29,12 @@ const VolunteerList = ({ volunteerPostByEmail }) => {
     if (result.isConfirmed) {
       try {
         const res = await axios.delete(
-          `http://localhost:3000/volunteers/${id}`
+          `http://localhost:3000/volunteers/${id}`,
+          {
+            headers: {
+              authorization: `Bearer ${user?.accessToken}`,
+            },
+          }
         );
         if (res.data.deletedCount > 0) {
           Swal.fire("Deleted!", "The post has been removed.", "success");

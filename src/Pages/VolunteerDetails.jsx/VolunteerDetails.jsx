@@ -109,13 +109,25 @@ const VolunteerDetails = () => {
     try {
       const res = await axios.post(
         "http://localhost:3000/volunteerRequests",
-        requestData
+        requestData,
+        {
+          headers: {
+            authorization: `Bearer ${user?.accessToken}`,
+          },
+        }
       );
 
       if (res.data.insertedId) {
         const patchRes = await axios.patch(
-          `http://localhost:3000/volunteers/${_id}/decrement`
+          `http://localhost:3000/volunteers/${_id}/decrement`,
+          {},
+          {
+            headers: {
+              authorization: `Bearer ${user?.accessToken}`,
+            },
+          }
         );
+        console.log(patchRes);
         if (patchRes.data) {
           setNeededCount((prev) => prev - 1);
           setRequestSuccess(true);
@@ -200,7 +212,6 @@ const VolunteerDetails = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* All inputs as you already wrote */}
           <div>
             <label
               className={`label ${
@@ -216,7 +227,156 @@ const VolunteerDetails = () => {
               className="input input-bordered w-full"
             />
           </div>
-          {/* ... repeat for other readOnly fields */}
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Post Title
+            </label>
+            <input
+              type="text"
+              value={postTitle}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Description
+            </label>
+            <input
+              type="text"
+              value={description}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Category
+            </label>
+            <input
+              type="text"
+              value={category}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              value={location}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Volunteers Needed
+            </label>
+            <input
+              type="text"
+              value={neededCount}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Deadline
+            </label>
+            <input
+              type="text"
+              value={formattedDate}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Organizer Name
+            </label>
+            <input
+              type="text"
+              value={organizerName}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Organizer Email
+            </label>
+            <input
+              type="email"
+              value={organizerEmail}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Volunteer Name
+            </label>
+            <input
+              type="text"
+              value={user?.displayName}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div>
+            <label
+              className={`label ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              Volunteer Email
+            </label>
+            <input
+              type="email"
+              value={user?.email}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
           <div>
             <label
               className={`label ${
@@ -231,7 +391,7 @@ const VolunteerDetails = () => {
               placeholder="Any suggestions?"
               className="textarea textarea-bordered w-full"
               rows={3}
-            />
+            ></textarea>
           </div>
 
           <button type="submit" className="btn btn-primary w-full">

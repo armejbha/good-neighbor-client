@@ -38,7 +38,12 @@ const VolunteerPostForm = () => {
     try {
       const res = await axios.post(
         "http://localhost:3000/volunteers",
-        postData
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
       );
 
       if (res.data.insertedId) {

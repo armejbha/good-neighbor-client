@@ -76,8 +76,6 @@ export const router = createBrowserRouter([
           },
           {
             path: "/manageMyPost/updateVolunteer/:id",
-            loader: ({ params }) =>
-              fetch(`http://localhost:3000/volunteersDetails/${params.id}`),
             element: (
               <PrivateRoutes>
                 <UpdateVolunteer></UpdateVolunteer>
