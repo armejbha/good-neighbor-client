@@ -16,7 +16,7 @@ const slides = [
       "Join our volunteer network and support your local community with heart and action.",
     btn1: "Become a Volunteer",
     btn2: "Learn More",
-    bg: "https://i.postimg.cc/Xv9n37g7/volunteer-1.jpg",
+    bg: "https://i.postimg.cc/ncSxdRts/pexels-ron-lach-9543745.jpg",
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const slides = [
       "Contribute your time, skills, and care to uplift the lives of people around you.",
     btn1: "Start Helping",
     btn2: "Get Involved",
-    bg: "https://i.postimg.cc/5NKF2p6D/volunteer-2.jpg",
+    bg: "https://i.postimg.cc/zXg7Mvsn/pexels-ifaw-5486959.jpg",
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const slides = [
       "Support local causes, lead change, and bring hope to those in need.",
     btn1: "Volunteer Now",
     btn2: "Explore Projects",
-    bg: "https://i.postimg.cc/3JNp6sTg/volunteer-3.jpg",
+    bg: "https://i.postimg.cc/xT6fwjL1/pexels-rdne-6647020.jpg",
   },
 ];
 
@@ -72,11 +72,11 @@ const Banner = () => {
                     : "bg-black text-white"
                 }`}
               >
-                <div className="md:w-1/2 md:h-auto">
+                <div className="md:w-1/2 h-full">
                   <img
                     src={slide.bg}
                     alt={slide.title}
-                    className="w-full h-full object-cover"
+                    className="w-full md:h-[650px] object-cover"
                   />
                 </div>
                 <div className="p-6 md:p-10 md:w-1/2 text-center md:text-left">

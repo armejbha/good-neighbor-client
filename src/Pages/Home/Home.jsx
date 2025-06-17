@@ -11,6 +11,7 @@ const Home = () => {
   const volunteersPromises = fetch("http://localhost:3000/volunteers").then(
     (res) => res.json()
   );
+  window.scrollTo({ top: 0, behavior: "smooth" });
   return (
     <div>
       <div>
