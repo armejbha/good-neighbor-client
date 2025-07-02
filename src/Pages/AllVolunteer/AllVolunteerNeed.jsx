@@ -10,46 +10,49 @@ const AllVolunteerNeed = () => {
   const [volunteers, setVolunteers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [viewType, setViewType] = useState("grid");
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  // Load saved view type and fetch volunteers
+  const [deadlineSort, setDeadlineSort] = useState("");
+  const [titleSort, setTitleSort] = useState("");
+  const navigate = useNavigate();
+
+  // Load saved view and fetch data on filter change
   useEffect(() => {
     const savedView = localStorage.getItem("viewType") || "grid";
     setViewType(savedView);
-    fetchVolunteers();
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // Fetch volunteers from backend
-  const fetchVolunteers = async (query = "") => {
-    setLoading(true);
-    try {
-      const res = await axios.get(
-        `https://good-neighbor-server.vercel.app/volunteers${
-          query ? `?search=${query}` : ""
-        }`
-      );
-      setVolunteers(res.data);
-    } catch (error) {
-      console.error("Failed to fetch volunteers", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Fetch volunteers whenever filters change
+  useEffect(() => {
+    const fetchVolunteers = async () => {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        if (searchQuery) params.append("search", searchQuery);
+        if (deadlineSort) params.append("deadline", deadlineSort);
+        if (titleSort) params.append("title", titleSort);
 
-  // Search handler
-  const handleSearch = () => {
-    fetchVolunteers(searchQuery);
-  };
+        const res = await axios.get(
+          `https://good-neighbor-server.vercel.app/volunteers?${params}`
+        );
+        setVolunteers(res.data);
+      } catch (error) {
+        console.error("Failed to fetch volunteers", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Toggle view and persist to localStorage
+    fetchVolunteers();
+  }, [searchQuery, deadlineSort, titleSort]);
+
+  // View toggle
   const handleViewChange = (type) => {
     setViewType(type);
     localStorage.setItem("viewType", type);
   };
-  if (loading) {
-    return <Loading></Loading>;
-  }
+
+  if (loading) return <Loading />;
+
   return (
     <div className="max-w-7xl mx-auto my-20 px-4">
       <button
@@ -59,9 +62,9 @@ const AllVolunteerNeed = () => {
         <IoIosArrowRoundBack size={30} /> Go Back
       </button>
 
-      {/* Search and View Controls */}
+      {/* Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-        {/* Search Input */}
+        {/* Search */}
         <div className="flex items-center gap-2 w-full md:w-auto">
           <input
             type="text"
@@ -69,36 +72,64 @@ const AllVolunteerNeed = () => {
             className="input input-bordered w-full md:w-80"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") setSearchQuery(e.target.value);
+            }}
           />
-          <button onClick={handleSearch} className="btn btn-primary">
+          <button
+            onClick={() => setSearchQuery(searchQuery)}
+            className="btn btn-primary"
+          >
             Search
           </button>
         </div>
 
-        {/* View Toggle */}
+        {/* Sort */}
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => handleViewChange("grid")}
-            className={`text-2xl ${
-              viewType === "grid" ? "text-primary" : "text-gray-400"
-            }`}
+          <select
+            className="select select-bordered"
+            value={deadlineSort}
+            onChange={(e) => setDeadlineSort(e.target.value)}
           >
-            <FaThLarge />
-          </button>
-          <button
-            onClick={() => handleViewChange("table")}
-            className={`text-2xl ${
-              viewType === "table" ? "text-primary" : "text-gray-400"
-            }`}
+            <option value="">Sort by Deadline</option>
+            <option value="latest">New to Old</option>
+            <option value="oldest">Old to New</option>
+          </select>
+          <select
+            className="select select-bordered"
+            value={titleSort}
+            onChange={(e) => setTitleSort(e.target.value)}
           >
-            <FaTable />
-          </button>
+            <option value="">Sort by Title</option>
+            <option value="az">A - Z</option>
+            <option value="za">Z - A</option>
+          </select>
+
+          {/* View Toggle */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => handleViewChange("grid")}
+              className={`text-2xl ${
+                viewType === "grid" ? "text-primary" : "text-gray-400"
+              }`}
+            >
+              <FaThLarge />
+            </button>
+            <button
+              onClick={() => handleViewChange("table")}
+              className={`text-2xl ${
+                viewType === "table" ? "text-primary" : "text-gray-400"
+              }`}
+            >
+              <FaTable />
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Render Volunteers */}
       {viewType === "grid" ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
           {volunteers.map((post) => (
             <VolunteerCard key={post._id} post={post} />
           ))}

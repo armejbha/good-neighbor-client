@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 import Loading from "../Pages/Shared/Loading";
 import PrivateRoutes from "./PrivateRoutes";
+import ManagePost from "../Pages/ManagePostLayouts/ManagePost";
 
 // Lazy load all components
 const RootLayouts = lazy(() => import("../Layouts/RootLayouts"));
@@ -16,9 +17,7 @@ const AddVolunteer = lazy(() => import("../Pages/AddVolunteer/AddVolunteer"));
 const SignIn = lazy(() => import("../Pages/SignIn/SignIn"));
 const Register = lazy(() => import("../Pages/Register/Register"));
 const ErrorPage = lazy(() => import("../Pages/ErrorPage/ErrorPage"));
-const ManagePostLayouts = lazy(() =>
-  import("../Pages/ManagePostLayouts/ManagePostLayouts")
-);
+const ManagePostLayouts = lazy(() => import("../Layouts/ManagePostLayouts"));
 const MyVolunteerPost = lazy(() =>
   import("../Pages/ManagePostLayouts/MyVolunteerPost/MyVolunteerPost")
 );
@@ -72,17 +71,7 @@ export const router = createBrowserRouter([
         ),
         handle: { title: "Volunteer Details" },
       },
-      {
-        path: "addVolunteer",
-        element: (
-          <Suspense fallback={<Loading />}>
-            <PrivateRoutes>
-              <AddVolunteer />
-            </PrivateRoutes>
-          </Suspense>
-        ),
-        handle: { title: "Add Volunteer Post" },
-      },
+
       {
         path: "signIn",
         element: (
@@ -101,62 +90,130 @@ export const router = createBrowserRouter([
         ),
         handle: { title: "Register" },
       },
+      // {
+      //   path: "manageMyPost",
+      //   element: (
+      //     <Suspense fallback={<Loading />}>
+      //       <PrivateRoutes>
+      //         <ManagePostLayouts />
+      //       </PrivateRoutes>
+      //     </Suspense>
+      //   ),
+      //   handle: { title: "Manage My Posts" },
+      //   children: [
+      //     {
+      //       index: true,
+      //       element: (
+      //         <Suspense fallback={<Loading />}>
+      //           <PrivateRoutes>
+      //             <MyVolunteerPost />
+      //           </PrivateRoutes>
+      //         </Suspense>
+      //       ),
+      //       handle: { title: "My Volunteer Posts" },
+      //     },
+      //     // {
+      //     //   path: "myVolunteerPost",
+      //     //   element: (
+      //     //     <Suspense fallback={<Loading />}>
+      //     //       <PrivateRoutes>
+      //     //         <MyVolunteerPost />
+      //     //       </PrivateRoutes>
+      //     //     </Suspense>
+      //     //   ),
+      //     //   handle: { title: "My Volunteer Posts" },
+      //     // },
+      //     {
+      //       path: "myRequestPost",
+      //       element: (
+      //         <Suspense fallback={<Loading />}>
+      //           <PrivateRoutes>
+      //             <MyRequestPost />
+      //           </PrivateRoutes>
+      //         </Suspense>
+      //       ),
+      //       handle: { title: "My Request Posts" },
+      //     },
+      //     {
+      //       path: "updateVolunteer/:id",
+      //       element: (
+      //         <Suspense fallback={<Loading />}>
+      //           <PrivateRoutes>
+      //             <UpdateVolunteer />
+      //           </PrivateRoutes>
+      //         </Suspense>
+      //       ),
+      //       handle: { title: "Update Volunteer Post" },
+      //     },
+      //   ],
+      // },
+    ],
+  },
+  {
+    path: "/manageMyPost",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <PrivateRoutes>
+          <ManagePostLayouts />
+        </PrivateRoutes>
+      </Suspense>
+    ),
+    handle: { title: "Manage My Posts" },
+    children: [
       {
-        path: "manageMyPost",
+        index: true,
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>
-              <ManagePostLayouts />
+              <MyVolunteerPost />
             </PrivateRoutes>
           </Suspense>
         ),
-        handle: { title: "Manage My Posts" },
-        children: [
-          {
-            index: true,
-            element: (
-              <Suspense fallback={<Loading />}>
-                <PrivateRoutes>
-                  <MyVolunteerPost />
-                </PrivateRoutes>
-              </Suspense>
-            ),
-            handle: { title: "My Volunteer Posts" },
-          },
-          {
-            path: "myVolunteerPost",
-            element: (
-              <Suspense fallback={<Loading />}>
-                <PrivateRoutes>
-                  <MyVolunteerPost />
-                </PrivateRoutes>
-              </Suspense>
-            ),
-            handle: { title: "My Volunteer Posts" },
-          },
-          {
-            path: "myRequestPost",
-            element: (
-              <Suspense fallback={<Loading />}>
-                <PrivateRoutes>
-                  <MyRequestPost />
-                </PrivateRoutes>
-              </Suspense>
-            ),
-            handle: { title: "My Request Posts" },
-          },
-          {
-            path: "updateVolunteer/:id",
-            element: (
-              <Suspense fallback={<Loading />}>
-                <PrivateRoutes>
-                  <UpdateVolunteer />
-                </PrivateRoutes>
-              </Suspense>
-            ),
-            handle: { title: "Update Volunteer Post" },
-          },
-        ],
+        handle: { title: "My Volunteer Posts" },
+      },
+      {
+        path: "/manageMyPost/myVolunteerPost",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <PrivateRoutes>
+              <MyVolunteerPost />
+            </PrivateRoutes>
+          </Suspense>
+        ),
+        handle: { title: "My Volunteer Posts" },
+      },
+      {
+        path: "/manageMyPost/myRequestPost",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <PrivateRoutes>
+              <MyRequestPost />
+            </PrivateRoutes>
+          </Suspense>
+        ),
+        handle: { title: "My Request Posts" },
+      },
+      {
+        path: "/manageMyPost/addVolunteer",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <PrivateRoutes>
+              <AddVolunteer />
+            </PrivateRoutes>
+          </Suspense>
+        ),
+        handle: { title: "Add Volunteer Post" },
+      },
+      {
+        path: "/manageMyPost/updateVolunteer/:id",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <PrivateRoutes>
+              <UpdateVolunteer />
+            </PrivateRoutes>
+          </Suspense>
+        ),
+        handle: { title: "Update Volunteer Post" },
       },
     ],
   },

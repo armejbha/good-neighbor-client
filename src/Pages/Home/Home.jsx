@@ -16,11 +16,11 @@ const Home = () => {
     <div>
       <div>
         <Banner></Banner>
+        <HowItWorks></HowItWorks>
         <Suspense fallback={<Loading></Loading>}>
           <Volunteers volunteersPromises={volunteersPromises}></Volunteers>
         </Suspense>
         <Testimonials></Testimonials>
-        <HowItWorks></HowItWorks>
       </div>
     </div>
   );

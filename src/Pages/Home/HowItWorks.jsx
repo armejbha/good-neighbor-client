@@ -62,10 +62,10 @@ const steps = [
 const HowItWorks = () => {
   const { theme } = useContext(AuthContext);
   return (
-    <section className="py-16">
-      <div className="max-w-7xl mx-auto px-6 text-center">
+    <section className="py-12">
+      <div className="max-w-7xl mx-auto px-4 md:px-0 text-center">
         <motion.h2
-          className={`text-3xl font-extrabold text-gray-900 mb-8 ${
+          className={`text-3xl font-extrabold text-gray-900 mb-12 ${
             theme === "dark" ? "text-white" : "text-black"
           }`}
           initial={{ opacity: 0, y: 20 }}
@@ -74,12 +74,12 @@ const HowItWorks = () => {
         >
           How It Works
         </motion.h2>
-        <div className="flex flex-col md:flex-row justify-center gap-10">
+        <div className="flex flex-col md:flex-row justify-between gap-10">
           {steps.map(({ id, icon, title, description }) => {
             return (
               <motion.div
                 key={id}
-                className="bg-gray-50 p-8 rounded-lg shadow-md max-w-sm mx-auto"
+                className="bg-gray-50 p-8 rounded-lg shadow-md max-w-sm"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

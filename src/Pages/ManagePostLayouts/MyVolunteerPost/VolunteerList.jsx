@@ -57,7 +57,7 @@ const VolunteerList = ({ volunteerPostByEmail }) => {
       >
         <IoIosArrowRoundBack size={30} /> Go Back
       </button>
-      <h3 className="text-2xl font-semibold mb-4 text-center text-primary">
+      <h3 className="text-3xl font-semibold mb-10 text-center text-primary">
         My Created Volunteer Need Posts
       </h3>
 

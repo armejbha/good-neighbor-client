@@ -5,6 +5,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import { Tooltip } from "react-tooltip";
 import { toast } from "react-toastify";
+import ProfileLogo from "./ProfileLogo";
 
 const Navbar = () => {
   const location = useLocation();
@@ -30,7 +31,7 @@ const Navbar = () => {
     userSignOut()
       .then(() => {
         toast.success("Logged out successfully!");
-        navigate("/signIn");
+        // navigate("/signIn");
       })
       .catch((error) => {
         toast.error("Logout failed: " + error.message);
@@ -60,7 +61,13 @@ const Navbar = () => {
             <NavLink to="/allVolunteer" className={navLinkStyles}>
               All Volunteer
             </NavLink>
-            <div className="dropdown dropdown-hover">
+            <NavLink to="/about" className={navLinkStyles}>
+              About Us            
+              </NavLink>
+            <NavLink to="/contact" className={navLinkStyles}>
+              Contact Us
+            </NavLink>
+            {/* <div className="dropdown dropdown-hover">
               <label
                 tabIndex={0}
                 className="text-lg font-medium px-2 py-1 whitespace-nowrap cursor-pointer"
@@ -83,7 +90,7 @@ const Navbar = () => {
                   </NavLink>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
           {/* Right Section */}
@@ -95,37 +102,16 @@ const Navbar = () => {
                 className="hover:cursor-pointer text-xl p-2 rounded-full transition"
               >
                 {theme === "light" ? (
-                  <FaMoon id="dark-light" className="text-gray-800" />
+                  <FaMoon className="text-gray-800" />
                 ) : (
-                  <FaSun id="dark-light" className="text-yellow-400" />
+                  <FaSun className="text-yellow-400" />
                 )}
               </button>
-              <Tooltip anchorSelect="#dark-light" place="bottom">
-                {theme === "light" ? "Dark mode" : "Light Mode"}
-              </Tooltip>
             </div>
 
             {/* User Avatar / Login */}
             {user ? (
-              <>
-                <div>
-                  <img
-                    id="user-avatar"
-                    src={user?.photoURL}
-                    alt="User Avatar"
-                    className="w-10 h-10 object-cover rounded-full border-2 border-primary cursor-pointer"
-                  />
-                  <Tooltip anchorSelect="#user-avatar" place="bottom">
-                    {user.displayName}
-                  </Tooltip>
-                </div>
-                <button
-                  onClick={handleLogout}
-                  className="btn btn-md border-0 outline-0 bg-primary text-white text-lg px-6 hover:bg-secondary"
-                >
-                  Logout
-                </button>
-              </>
+              <ProfileLogo></ProfileLogo>
             ) : (
               <Link
                 to="/signIn"

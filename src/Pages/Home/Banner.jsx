@@ -76,7 +76,7 @@ const Banner = () => {
                   <img
                     src={slide.bg}
                     alt={slide.title}
-                    className="w-full h-[200px] md:h-[650px] object-cover"
+                    className="w-full h-[200px] md:h-[550px] object-cover"
                   />
                 </div>
                 <div className="p-6 md:p-10 md:w-1/2 text-center md:text-left">

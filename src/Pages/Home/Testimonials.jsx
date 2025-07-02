@@ -77,8 +77,8 @@ const testimonials = [
 const Testimonials = () => {
   const { theme } = useContext(AuthContext);
   return (
-    <section className={`py-16 ${theme === "light" && "bg-gray-50"}`}>
-      <div className="max-w-7xl mx-auto px-6">
+    <section className={`py-12 ${theme === "light" && "bg-gray-50"}`}>
+      <div className="max-w-7xl mx-auto px-2 md:px-0">
         <motion.h2
           className={`text-3xl font-extrabold ${
             theme === "dark" && "text-white"

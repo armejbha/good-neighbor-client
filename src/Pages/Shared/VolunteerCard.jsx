@@ -3,11 +3,11 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 
 const VolunteerCard = ({ post }) => {
-  const { thumbnail, postTitle, category, deadline, _id } = post;
+  const { thumbnail, postTitle, category, deadline, _id, description } = post;
 
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.0 }}
       transition={{ duration: 0.3 }}
       className="rounded-xl shadow-md border-0 overflow-hidden bg-gray-800 flex flex-col"
     >
@@ -25,7 +25,7 @@ const VolunteerCard = ({ post }) => {
 
         {/* Info + Button */}
         <div className="mt-auto">
-          <p className="text-sm text-gray-300 mb-1">Category: {category}</p>
+          {/* <p className="text-sm text-gray-300 mb-1">Category: {category}</p>
           <p className="text-sm text-gray-300 mb-3">
             Deadline:{" "}
             {new Date(deadline).toLocaleDateString("en-GB", {
@@ -33,6 +33,11 @@ const VolunteerCard = ({ post }) => {
               month: "short",
               year: "numeric",
             })}
+          </p> */}
+          <p className="text-gray-300 mb-3">
+            {description.length > 60
+              ? `${description.slice(0, 60)}...`
+              : description}
           </p>
 
           <Link to={`/volunteerDetails/${_id}`}>

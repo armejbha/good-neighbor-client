@@ -105,7 +105,7 @@ const UpdateVolunteer = () => {
     );
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="max-w-7xl mx-auto px-4">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center text-xl mb-6 text-primary hover:underline"
@@ -117,7 +117,7 @@ const UpdateVolunteer = () => {
         <h1 className="text-3xl md:text-4xl font-bold text-primary">
           Update Volunteer Post
         </h1>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-4 text-gray-500">
           Make changes to your volunteer opportunity details.
         </p>
       </div>
