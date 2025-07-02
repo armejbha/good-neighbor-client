@@ -54,7 +54,7 @@ const AllVolunteerNeed = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="max-w-7xl mx-auto my-20 px-4">
+    <div className="max-w-7xl mx-auto my-20 px-4 md:px-0">
       <button
         onClick={() => navigate(-1)}
         className="flex items-center text-xl mb-6 text-primary hover:underline"

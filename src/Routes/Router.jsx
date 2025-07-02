@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import Loading from "../Pages/Shared/Loading";
 import PrivateRoutes from "./PrivateRoutes";
 import ManagePost from "../Pages/ManagePostLayouts/ManagePost";
+import ContactUs from "../Pages/ContactUs/ContactUs";
 
 // Lazy load all components
 const RootLayouts = lazy(() => import("../Layouts/RootLayouts"));
@@ -16,6 +17,7 @@ const VolunteerDetails = lazy(() =>
 const AddVolunteer = lazy(() => import("../Pages/AddVolunteer/AddVolunteer"));
 const SignIn = lazy(() => import("../Pages/SignIn/SignIn"));
 const Register = lazy(() => import("../Pages/Register/Register"));
+const AboutUs = lazy(() => import("../Pages/AboutUs/AboutUs"));
 const ErrorPage = lazy(() => import("../Pages/ErrorPage/ErrorPage"));
 const ManagePostLayouts = lazy(() => import("../Layouts/ManagePostLayouts"));
 const MyVolunteerPost = lazy(() =>
@@ -90,63 +92,22 @@ export const router = createBrowserRouter([
         ),
         handle: { title: "Register" },
       },
-      // {
-      //   path: "manageMyPost",
-      //   element: (
-      //     <Suspense fallback={<Loading />}>
-      //       <PrivateRoutes>
-      //         <ManagePostLayouts />
-      //       </PrivateRoutes>
-      //     </Suspense>
-      //   ),
-      //   handle: { title: "Manage My Posts" },
-      //   children: [
-      //     {
-      //       index: true,
-      //       element: (
-      //         <Suspense fallback={<Loading />}>
-      //           <PrivateRoutes>
-      //             <MyVolunteerPost />
-      //           </PrivateRoutes>
-      //         </Suspense>
-      //       ),
-      //       handle: { title: "My Volunteer Posts" },
-      //     },
-      //     // {
-      //     //   path: "myVolunteerPost",
-      //     //   element: (
-      //     //     <Suspense fallback={<Loading />}>
-      //     //       <PrivateRoutes>
-      //     //         <MyVolunteerPost />
-      //     //       </PrivateRoutes>
-      //     //     </Suspense>
-      //     //   ),
-      //     //   handle: { title: "My Volunteer Posts" },
-      //     // },
-      //     {
-      //       path: "myRequestPost",
-      //       element: (
-      //         <Suspense fallback={<Loading />}>
-      //           <PrivateRoutes>
-      //             <MyRequestPost />
-      //           </PrivateRoutes>
-      //         </Suspense>
-      //       ),
-      //       handle: { title: "My Request Posts" },
-      //     },
-      //     {
-      //       path: "updateVolunteer/:id",
-      //       element: (
-      //         <Suspense fallback={<Loading />}>
-      //           <PrivateRoutes>
-      //             <UpdateVolunteer />
-      //           </PrivateRoutes>
-      //         </Suspense>
-      //       ),
-      //       handle: { title: "Update Volunteer Post" },
-      //     },
-      //   ],
-      // },
+      {
+        path: "about",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AboutUs />
+          </Suspense>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ContactUs />
+          </Suspense>
+        ),
+      },
     ],
   },
   {

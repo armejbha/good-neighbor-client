@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { AuthContext } from "../../Context/AuthContext";
+import { Link } from "react-router";
 
 // Slides Data
 const slides = [
@@ -113,12 +114,12 @@ const Banner = () => {
                     transition={{ duration: 0.4, delay: 0.4 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
                   >
-                    <button className="bg-primary text-white px-5 py-2 rounded hover:bg-secondary transition">
+                    <Link to="/allVolunteer" className="bg-primary text-white px-5 py-2 rounded hover:bg-secondary transition">
                       {slide.btn1}
-                    </button>
-                    <button className="border border-primary text-primary px-5 py-2 rounded hover:bg-primary hover:text-white transition">
+                    </Link>
+                    <Link to="/allVolunteer" className="border border-primary text-primary px-5 py-2 rounded hover:bg-primary hover:text-white transition">
                       {slide.btn2}
-                    </button>
+                    </Link>
                   </motion.div>
                 </div>
               </div>

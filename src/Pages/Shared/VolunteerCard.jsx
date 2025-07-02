@@ -25,15 +25,7 @@ const VolunteerCard = ({ post }) => {
 
         {/* Info + Button */}
         <div className="mt-auto">
-          {/* <p className="text-sm text-gray-300 mb-1">Category: {category}</p>
-          <p className="text-sm text-gray-300 mb-3">
-            Deadline:{" "}
-            {new Date(deadline).toLocaleDateString("en-GB", {
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-            })}
-          </p> */}
+          
           <p className="text-gray-300 mb-3">
             {description.length > 60
               ? `${description.slice(0, 60)}...`

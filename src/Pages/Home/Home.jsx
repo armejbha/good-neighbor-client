@@ -5,6 +5,9 @@ import Loading from "../Shared/Loading";
 import { AuthContext } from "../../Context/AuthContext";
 import HowItWorks from "./HowItWorks";
 import Testimonials from "./Testimonials";
+import GallerySection from "./GallerySection";
+import ImpactStats from "./ImpactStats";
+import Newsletter from "./Newsletter";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
@@ -21,6 +24,11 @@ const Home = () => {
           <Volunteers volunteersPromises={volunteersPromises}></Volunteers>
         </Suspense>
         <Testimonials></Testimonials>
+        {/* <GallerySection></GallerySection> */}
+        <Suspense fallback={<Loading></Loading>}>
+          <ImpactStats volunteersPromises={volunteersPromises}></ImpactStats>
+        </Suspense>
+        <Newsletter></Newsletter>
       </div>
     </div>
   );

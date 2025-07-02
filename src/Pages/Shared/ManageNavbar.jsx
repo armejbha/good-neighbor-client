@@ -27,11 +27,11 @@ const ManageNavbar = () => {
           Add Volunteer
         </NavLink>
       </li>
-      <li>
+      {/* <li>
         <NavLink to="/manageMyPost/profile" className={navLinkStyles}>
           My Profile
         </NavLink>
-      </li>
+      </li> */}
 
       {/* Add more sidebar links here */}
     </ul>

@@ -10,6 +10,16 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
+  const navLinkStyles = ({ isActive }) =>
+    isActive
+      ? "text-primary font-semibold text-xl"
+      : "text-white hover:text-primary text-xl";
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <footer className="bg-[#102116] text-white px-2 md:px-0">
       {/* Branding Section */}
@@ -46,7 +56,7 @@ const Footer = () => {
             matters.
           </p>
           <Link
-            to="/volunteer"
+            to="/allVolunteer"
             className="mt-2 inline-block bg-primary text-white px-5 py-2 rounded-full text-sm hover:bg-secondary transition"
           >
             Join the Team
@@ -60,24 +70,28 @@ const Footer = () => {
           </h2>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link to="/" className="hover:underline">
+              <Link to="/" onClick={scrollToTop} className={navLinkStyles}>
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/allVolunteer" className="hover:underline">
+              <Link
+                to="/allVolunteer"
+                onClick={scrollToTop}
+                className={navLinkStyles}
+              >
                 All Volunteer
               </Link>
             </li>
+
             <li>
-              <a href="#" className="hover:underline">
-                Impact Stories
-              </a>
-            </li>
-            <li>
-              <a href="3" className="hover:underline">
+              <Link
+                to="/contact"
+                onClick={scrollToTop}
+                className={navLinkStyles}
+              >
                 Contact
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
