@@ -14,6 +14,11 @@ const ManageNavbar = () => {
     <ul className="space-y-1">
       <li>
         <NavLink to="/dashboard" end className={navLinkStyles}>
+          Overview
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/myVolunteerPost" end className={navLinkStyles}>
           My Volunteer Posts
         </NavLink>
       </li>

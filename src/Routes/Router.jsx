@@ -23,6 +23,9 @@ const ManagePostLayouts = lazy(() => import("../Layouts/ManagePostLayouts"));
 const MyVolunteerPost = lazy(() =>
   import("../Pages/ManagePostLayouts/MyVolunteerPost/MyVolunteerPost")
 );
+const Overview = lazy(() =>
+  import("../Pages/ManagePostLayouts/Overview")
+);
 const MyRequestPost = lazy(() =>
   import("../Pages/ManagePostLayouts/MyRequestPost/MyRequestPost")
 );
@@ -119,18 +122,18 @@ export const router = createBrowserRouter([
         </PrivateRoutes>
       </Suspense>
     ),
-    handle: { title: "Manage My Posts" },
+    handle: { title: "Dashboard" },
     children: [
       {
         index: true,
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>
-              <MyVolunteerPost />
+              <Overview />
             </PrivateRoutes>
           </Suspense>
         ),
-        handle: { title: "My Volunteer Posts" },
+        handle: { title: "Overview" },
       },
       {
         path: "/dashboard/myVolunteerPost",

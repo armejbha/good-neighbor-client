@@ -5,9 +5,10 @@ import { Outlet, useMatches, Link } from "react-router";
 import ProfileLogo from "../Pages/Shared/ProfileLogo";
 import ManageNavbar from "../Pages/Shared/ManageNavbar";
 import { AuthContext } from "../Context/AuthContext";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const ManagePostLayouts = () => {
-  const { user } = useContext(AuthContext);
+  const { user,theme,toggleTheme } = useContext(AuthContext);
   const matches = useMatches();
 
   // Set dynamic title
@@ -38,7 +39,21 @@ const ManagePostLayouts = () => {
           </div>
 
           {/* User Dropdown */}
-          <ProfileLogo />
+          <div className="flex items-center gap-2">
+            <div>
+                          <button
+                            onClick={toggleTheme}
+                            className="hover:cursor-pointer text-xl p-2 rounded-full transition"
+                          >
+                            {theme === "light" ? (
+                              <FaMoon className="text-gray-800" />
+                            ) : (
+                              <FaSun className="text-yellow-400" />
+                            )}
+                          </button>
+                        </div>
+            <ProfileLogo />
+          </div>
         </div>
 
         {/* Page Content */}
