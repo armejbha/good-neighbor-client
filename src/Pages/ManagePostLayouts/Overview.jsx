@@ -12,7 +12,6 @@ export default function Overview() {
       try {
         if (!user) return;
 
-        const token = await user.getIdToken();
         const res = await fetch(
           `https://good-neighbor-server.vercel.app/stats?email=${user?.email}`,
           {
