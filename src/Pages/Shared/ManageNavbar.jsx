@@ -13,25 +13,25 @@ const ManageNavbar = () => {
   return (
     <ul className="space-y-1">
       <li>
-        <NavLink to="/manageMyPost" end className={navLinkStyles}>
+        <NavLink to="/dashboard" end className={navLinkStyles}>
           My Volunteer Posts
         </NavLink>
       </li>
       <li>
-        <NavLink to="/manageMyPost/myRequestPost" className={navLinkStyles}>
+        <NavLink to="/dashboard/myRequestPost" className={navLinkStyles}>
           My Request Posts
         </NavLink>
       </li>
       <li>
-        <NavLink to="/manageMyPost/addVolunteer" className={navLinkStyles}>
+        <NavLink to="/dashboard/addVolunteer" className={navLinkStyles}>
           Add Volunteer
         </NavLink>
       </li>
-      {/* <li>
-        <NavLink to="/manageMyPost/profile" className={navLinkStyles}>
+      <li>
+        <NavLink to="/dashboard/profile" className={navLinkStyles}>
           My Profile
         </NavLink>
-      </li> */}
+      </li>
 
       {/* Add more sidebar links here */}
     </ul>

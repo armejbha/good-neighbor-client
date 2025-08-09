@@ -81,7 +81,7 @@ const UpdateVolunteer = () => {
       );
       if (res.data.modifiedCount > 0) {
         toast.success("Volunteer post updated successfully!");
-        navigate("/manageMyPost/myVolunteerPost");
+        navigate("/dashboard/myVolunteerPost");
       } else {
         toast.info("No changes were made.");
       }

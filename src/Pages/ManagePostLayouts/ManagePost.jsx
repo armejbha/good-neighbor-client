@@ -3,7 +3,7 @@ import React from 'react';
 const ManagePost = () => {
     return (
         <div>
-            manage post
+            Dashboard
         </div>
     );
 };

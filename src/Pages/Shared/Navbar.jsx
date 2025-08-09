@@ -6,6 +6,7 @@ import { AuthContext } from "../../Context/AuthContext";
 import { Tooltip } from "react-tooltip";
 import { toast } from "react-toastify";
 import ProfileLogo from "./ProfileLogo";
+import { FiCreditCard } from "react-icons/fi";
 
 const Navbar = () => {
   const location = useLocation();
@@ -67,30 +68,6 @@ const Navbar = () => {
             <NavLink to="/contact" className={navLinkStyles}>
               Contact Us
             </NavLink>
-            {/* <div className="dropdown dropdown-hover">
-              <label
-                tabIndex={0}
-                className="text-lg font-medium px-2 py-1 whitespace-nowrap cursor-pointer"
-              >
-                My Profile
-              </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-56
-                           "
-              >
-                <li>
-                  <NavLink to="/addVolunteer" className={navLinkStyles}>
-                    Add Volunteer Need
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/manageMyPost" className={navLinkStyles}>
-                    Manage My Posts
-                  </NavLink>
-                </li>
-              </ul>
-            </div> */}
           </div>
 
           {/* Right Section */}
@@ -181,59 +158,16 @@ const Navbar = () => {
               Contact Us
             </NavLink>
                 </li>
-                {
-                  user &&   
                 <li>
-                  <details>
-                    <summary
-                      className={`${mobileNavLinkStyles} text-lg font-medium px-[13px] py-1 whitespace-nowrap cursor-pointer`}
-                    >
-                      My Profile
-                    </summary>
-                    <ul>
-                      <li>
-                        <NavLink
-                          to="/addVolunteer"
-                          className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
-                        >
-                          Add Volunteer Need
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          to="/manageMyPost"
-                          className={`${mobileNavLinkStyles} whitespace-nowrap px-2 py-1 block`}
-                        >
-                          Manage My Posts
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </details>
+                  {
+                    user && <NavLink
+                              to="/dashboard"
+                              className={mobileNavLinkStyles}
+                            >
+                              Dashboard
+                            </NavLink>
+                  }
                 </li>
-                }
-
-                {/* Theme Toggle (Mobile) */}
-                {/* <li>
-                  <button
-                    onClick={toggleTheme}
-                    className="flex items-center gap-2 text-lg p-2 w-full"
-                  >
-                    {theme === "light" ? (
-                      <>
-                        <FaMoon className="text-gray-800" />
-                        <span>Dark Mode</span>
-                      </>
-                    ) : (
-                      <>
-                        <FaSun className="text-yellow-400" />
-                        <span className={`${theme === "dark" && "text-black"}`}>
-                          Light Mode
-                        </span>
-                      </>
-                    )}
-                  </button>
-                </li> */}
-
                 {user ? (
                   <li className="mt-4">
                     <button

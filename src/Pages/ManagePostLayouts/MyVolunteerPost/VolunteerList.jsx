@@ -84,7 +84,7 @@ const VolunteerList = ({ volunteerPostByEmail }) => {
                   <td className="text-center">
                     <div className="flex items-center justify-center space-x-2">
                       <Link
-                        to={`/manageMyPost/updateVolunteer/${volunteer._id}`}
+                        to={`/dashboard/updateVolunteer/${volunteer._id}`}
                       >
                         <button
                           className="btn btn-sm btn-info text-white px-3 tooltip"

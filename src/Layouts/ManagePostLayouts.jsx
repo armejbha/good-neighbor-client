@@ -34,7 +34,7 @@ const ManagePostLayouts = () => {
           </label>
           {/* Page title */}
           <div className="flex-1">
-            <h3 className="text-xl font-semibold">Manage Post</h3>
+            <h3 className="text-xl font-semibold">User Dashboard</h3>
           </div>
 
           {/* User Dropdown */}

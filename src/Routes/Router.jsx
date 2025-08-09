@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router";
 import Loading from "../Pages/Shared/Loading";
 import PrivateRoutes from "./PrivateRoutes";
-import ManagePost from "../Pages/ManagePostLayouts/ManagePost";
+// import ManagePost from "../Pages/ManagePostLayouts/ManagePost";
 import ContactUs from "../Pages/ContactUs/ContactUs";
 
 // Lazy load all components
@@ -111,7 +111,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/manageMyPost",
+    path: "/dashboard",
     element: (
       <Suspense fallback={<Loading />}>
         <PrivateRoutes>
@@ -133,7 +133,7 @@ export const router = createBrowserRouter([
         handle: { title: "My Volunteer Posts" },
       },
       {
-        path: "/manageMyPost/myVolunteerPost",
+        path: "/dashboard/myVolunteerPost",
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>
@@ -144,7 +144,7 @@ export const router = createBrowserRouter([
         handle: { title: "My Volunteer Posts" },
       },
       {
-        path: "/manageMyPost/myRequestPost",
+        path: "/dashboard/myRequestPost",
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>
@@ -155,7 +155,7 @@ export const router = createBrowserRouter([
         handle: { title: "My Request Posts" },
       },
       {
-        path: "/manageMyPost/addVolunteer",
+        path: "/dashboard/addVolunteer",
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>
@@ -166,7 +166,7 @@ export const router = createBrowserRouter([
         handle: { title: "Add Volunteer Post" },
       },
       {
-        path: "/manageMyPost/updateVolunteer/:id",
+        path: "/dashboard/updateVolunteer/:id",
         element: (
           <Suspense fallback={<Loading />}>
             <PrivateRoutes>

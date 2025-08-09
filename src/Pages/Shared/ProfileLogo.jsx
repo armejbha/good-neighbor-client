@@ -63,11 +63,11 @@ const ProfileLogo = () => {
         </ul>
         <li className="my-2 py-1 border-b border-gray-200">
           <NavLink
-            to="/manageMyPost"
+            to="/dashboard"
             className={`flex items-center text-lg pl-2 `}
           >
             <FiCreditCard />
-            Manage Post
+            Dashboard
           </NavLink>
         </li>
         <li>
