@@ -124,23 +124,39 @@ const Navbar = () => {
 
           {/* Mobile Dropdown */}
           <div className="flex md:hidden items-center">
-            {user && (
-              <div>
+            <div>
+              <button
+                onClick={toggleTheme}
+                className="hover:cursor-pointer text-xl p-2 rounded-full transition"
+              >
+                {theme === "light" ? (
+                  <FaMoon className="text-gray-800" />
+                ) : (
+                  <FaSun className="text-yellow-400" />
+                )}
+              </button>
+            </div>
+            
+            <div className="dropdown dropdown-end ml-2">
+              {
+                user ? 
+                <>
+                <div tabIndex={0}>
                 <img
                   id="user-avatar"
                   src={user?.photoURL}
                   alt="User Avatar"
                   className="w-10 h-10 object-cover rounded-full border-2 border-primary cursor-pointer"
                 />
-                <Tooltip anchorSelect="#user-avatar" place="bottom">
-                  {user.displayName}
-                </Tooltip>
               </div>
-            )}
-            <div className="dropdown dropdown-end ml-2">
-              <label tabIndex={0} className="btn btn-ghost btn-circle">
-                <TiThMenu className="text-2xl text-primary" />
-              </label>
+                </>
+                :
+                 <>
+                  <label tabIndex={0} className="btn btn-ghost btn-circle">
+                    <TiThMenu className="text-2xl text-primary" />
+                  </label>
+              </>
+              }
               <ul
                 tabIndex={0}
                 className="dropdown-content mt-3 z-[1] menu p-2 shadow rounded-box w-60 bg-white text-black "
@@ -155,6 +171,18 @@ const Navbar = () => {
                     All Volunteer
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink to="/about" className={mobileNavLinkStyles}>
+              About Us            
+              </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/contact" className={mobileNavLinkStyles}>
+              Contact Us
+            </NavLink>
+                </li>
+                {
+                  user &&   
                 <li>
                   <details>
                     <summary
@@ -182,9 +210,10 @@ const Navbar = () => {
                     </ul>
                   </details>
                 </li>
+                }
 
                 {/* Theme Toggle (Mobile) */}
-                <li>
+                {/* <li>
                   <button
                     onClick={toggleTheme}
                     className="flex items-center gap-2 text-lg p-2 w-full"
@@ -203,7 +232,7 @@ const Navbar = () => {
                       </>
                     )}
                   </button>
-                </li>
+                </li> */}
 
                 {user ? (
                   <li className="mt-4">
